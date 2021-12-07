@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:home_rental/view/homescreen/homescreen.dart';
 import 'package:home_rental/view/login_signup/signin.dart';
-import 'package:home_rental/view/login_signup/signup.dart';
 
 void main() => runApp(const MyApp());
 
