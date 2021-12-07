@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:home_rental/controller/authentication.dart';
 import 'package:home_rental/view/homescreen/homescreen.dart';
-import 'package:home_rental/view/login_signup/signin.dart';
 
 void main() => runApp(const MyApp());
 
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       title: 'Home Rental',
       initialRoute: '/',
       routes: {
-        '/': (context) => const SignIn(),
+        '/': (context) => const Authentication(),
         '/home': (context) => const HomeScreen(),
       },
     );
