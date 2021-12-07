@@ -1,0 +1,87 @@
+[
+    {
+        "id": "1",
+        "available": "true",
+        "owner": "Mohnish Jharbade",
+        "size": "1800",
+        "rent": 1000,
+        "picture": "https://source.unsplash.com/480x480/?home",
+        "likes": "0",
+        "description": "Electricity excluded",
+        "address": {
+            "house_number": "Ho. 33",
+            "apartment": "Clementina DuBuque",
+            "street": "JK Road",
+            "city": "Bhopal",
+            "state": "MP"
+        }
+    },
+    {
+        "id": "2",
+        "available": "true",
+        "owner": "Mohnish Jharbade",
+        "size": "1800",
+        "rent": 1000,
+        "picture": "https://source.unsplash.com/480x480/?home",
+        "likes": "0",
+        "description": "Electricity excluded",
+        "address": {
+            "house_number": "Ho. 33",
+            "apartment": "Clementina DuBuque",
+            "street": "JK Road",
+            "city": "Bhopal",
+            "state": "MP"
+        }
+    },
+    {
+        "id": "3",
+        "available": "true",
+        "owner": "Mohnish Jharbade",
+        "size": "1800",
+        "rent": 1000,
+        "picture": "https://source.unsplash.com/480x480/?home",
+        "likes": "0",
+        "description": "Electricity excluded",
+        "address": {
+            "house_number": "Ho. 33",
+            "apartment": "Clementina DuBuque",
+            "street": "JK Road",
+            "city": "Bhopal",
+            "state": "MP"
+        }
+    },
+    {
+        "id": "4",
+        "available": "true",
+        "owner": "Mohnish Jharbade",
+        "size": "1800",
+        "rent": 1000,
+        "picture": "https://source.unsplash.com/480x480/?home",
+        "likes": "0",
+        "description": "Electricity excluded",
+        "address": {
+            "house_number": "Ho. 33",
+            "apartment": "Clementina DuBuque",
+            "street": "JK Road",
+            "city": "Bhopal",
+            "state": "MP"
+        }
+    },
+    {
+        "id": "5",
+        "available": "true",
+        "owner": "Mohnish Jharbade",
+        "size": "1800",
+        "rent": 1000,
+        "picture": "https://source.unsplash.com/480x480/?home",
+        "likes": "0",
+        "description": "Electricity excluded",
+        "address": {
+            "house_number": "Ho. 33",
+            "apartment": "Clementina DuBuque",
+            "street": "JK Road",
+            "city": "Bhopal",
+            "state": "MP"
+        }
+    }
+]

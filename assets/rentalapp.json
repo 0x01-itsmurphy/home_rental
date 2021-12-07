@@ -1,0 +1,67 @@
+[
+    {
+        "id": "0",
+        "available": "true",
+        "rent": 1000,
+        "apartment": "Clementina DuBuque",
+        "size": "1800",
+        "owner": "Mohnish",
+        "address": "8 Shiv Nagar, Ayodhya Bypass",
+        "city": "Bhopal",
+        "picture": "https://source.unsplash.com/480x480/?home",
+        "likes": "0",
+        "phone": "1234567890"
+    },
+    {
+        "id": "1",
+        "available": "true",
+        "rent": 1200,
+        "apartment": "Railway Colony",
+        "size": "3200",
+        "owner": "Neeraj",
+        "address": "Near Railway Station",
+        "city": "Bhopal",
+        "picture": "https://source.unsplash.com/480x480/?panda",
+        "likes": "15",
+        "phone": "1234567890"
+    },
+    {
+        "id": "2",
+        "available": "false",
+        "rent": 8000,
+        "apartment": "Sagar Avanue",
+        "size": "3000",
+        "owner": "Kavish",
+        "address": "Arera Colony",
+        "city": "Indore",
+        "picture": "https://source.unsplash.com/480x480/?house",
+        "likes": "19",
+        "phone": "1234567890"
+    },
+    {
+        "id": "3",
+        "available": "true",
+        "rent": 2000,
+        "apartment": "Aman Ka Ghar",
+        "size": "2200",
+        "owner": "Aman",
+        "address": "Gopal Nagar",
+        "city": "Bhopal",
+        "picture": "https://source.unsplash.com/480x480/?home,class",
+        "likes": "8",
+        "phone": "1234567890"
+    },
+    {
+        "id": "4",
+        "available": "false",
+        "rent": 1500,
+        "apartment": "Manish Ka Ghar",
+        "size": "2000",
+        "owner": "Manish",
+        "address": "Anand Nagar",
+        "city": "Bhopal",
+        "picture": "https://source.unsplash.com/480x480/?ground",
+        "likes": "5",
+        "phone": "1234567890"
+    }
+]
