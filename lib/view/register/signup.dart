@@ -1,6 +1,9 @@
 // ignore_for_file: avoid_print
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class SignUp extends StatefulWidget {
   const SignUp({
@@ -21,7 +24,41 @@ class _SignUpState extends State<SignUp> {
   String email = '';
   String password = '';
 
+  Map? message;
+  String? messageData;
+
   bool _showPassword = true;
+
+  Future registerApiPost() async {
+    final response = await http.post(
+      Uri.parse("http://192.168.1.4:8000/api/auth/signup"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(
+        <String, String>{
+          'name': name,
+          'email': email,
+          'password': password,
+        },
+      ),
+    );
+
+    setState(() {
+      message = jsonDecode(response.body);
+      messageData = message!['message'].toString();
+      print(message);
+    });
+
+    final snackBar = SnackBar(
+      content: Text('$email \n$messageData'),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+    if (response.statusCode == 200) {
+      return Navigator.pushReplacementNamed(context, '/home');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,8 +127,8 @@ class _SignUpState extends State<SignUp> {
                           return null;
                         }
                       },
-                      onSaved: (value) => setState(() {
-                        name = value!;
+                      onChanged: (value) => setState(() {
+                        name = value;
                       }),
                     ),
                     const SizedBox(height: 10),
@@ -116,8 +153,8 @@ class _SignUpState extends State<SignUp> {
                           return null;
                         }
                       },
-                      onSaved: (value) => setState(() {
-                        email = value!;
+                      onChanged: (value) => setState(() {
+                        email = value;
                       }),
                     ),
                     const SizedBox(height: 10),
@@ -153,8 +190,8 @@ class _SignUpState extends State<SignUp> {
                           return null;
                         }
                       },
-                      onSaved: (value) => setState(() {
-                        password = value!;
+                      onChanged: (value) => setState(() {
+                        password = value;
                       }),
                     ),
                     const SizedBox(height: 20),
@@ -169,15 +206,13 @@ class _SignUpState extends State<SignUp> {
                         onTap: () {
                           final isValid = _formKey.currentState!.validate();
                           if (isValid) {
-                            _formKey.currentState!.save();
-
-                            final snackBar = SnackBar(
-                              content: Text(
-                                  'Welcome $name \n and $password \n $email'),
-                            );
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(snackBar);
-                            Navigator.pushNamed(context, '/home');
+                            _formKey.currentState!.setState(() {
+                              registerApiPost();
+                              print("object");
+                            });
+                            print("sign up clicked");
+                          } else {
+                            print("Error");
                           }
                         },
                         // onTap: () {

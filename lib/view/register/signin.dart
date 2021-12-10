@@ -1,6 +1,9 @@
 // ignore_for_file: avoid_print
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class SignIn extends StatefulWidget {
   const SignIn({
@@ -19,6 +22,43 @@ class _SignInState extends State<SignIn> {
 
   String email = '';
   String password = '';
+
+  Map? message;
+  String? messageData;
+
+  bool _showPassword = true;
+
+  Future signInApiPost() async {
+    final response = await http.post(
+      Uri.parse("http://192.168.1.4:8000/api/auth/signin"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(
+        <String, String>{
+          'email': email,
+          'password': password,
+        },
+      ),
+    );
+
+    setState(() {
+      message = jsonDecode(response.body);
+      messageData = message!['message'].toString();
+      print(message);
+    });
+    // if (response.statusCode == 200) {
+    //   return Navigator.pushNamed(context, '/home');
+    // }
+    final snackBar = SnackBar(
+      content: Text('$email \n$messageData'),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+    if (response.statusCode == 200) {
+      return Navigator.pushReplacementNamed(context, '/home');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,9 +111,68 @@ class _SignInState extends State<SignIn> {
                     right: MediaQuery.of(context).size.width * 0.05,
                   ),
                   child: Column(children: [
-                    const EmailFiled(),
+                    TextFormField(
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: InputDecoration(
+                        icon: const Icon(Icons.email),
+                        labelText: 'Email',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      validator: (value) {
+                        const pattern =
+                            r'(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)';
+                        final regExp = RegExp(pattern);
+                        if (value!.isEmpty) {
+                          return 'Enter email';
+                        } else if (!regExp.hasMatch(value)) {
+                          return 'Enter valid email';
+                        } else {
+                          return null;
+                        }
+                      },
+                      onChanged: (value) => setState(() {
+                        email = value;
+                      }),
+                    ),
                     const SizedBox(height: 20),
-                    const PasswordField(),
+                    TextFormField(
+                      // style: const TextStyle(
+                      //   fontSize: 20,
+                      // ),
+                      obscureText: _showPassword,
+                      keyboardType: TextInputType.visiblePassword,
+                      decoration: InputDecoration(
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _showPassword
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _showPassword = !_showPassword;
+                            });
+                          },
+                        ),
+                        icon: const Icon(Icons.lock),
+                        labelText: 'Password',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      validator: (value) {
+                        if (value!.length < 8) {
+                          return 'Please enter more than 8 charater password';
+                        } else {
+                          return null;
+                        }
+                      },
+                      onChanged: (value) => setState(() {
+                        password = value;
+                      }),
+                    ),
                     Container(
                       alignment: Alignment.centerRight,
                       child: TextButton(
@@ -92,14 +191,21 @@ class _SignInState extends State<SignIn> {
                         onTap: () {
                           final isValid = _formKey.currentState!.validate();
                           if (isValid) {
-                            _formKey.currentState!.save();
+                            _formKey.currentState!.setState(() {
+                              signInApiPost();
+                            });
+                            print("OK");
+                            // final snackBar = SnackBar(
+                            //   content: Text(
+                            //       '$email \n${message!['message'].toString()}'),
+                            // );
+                            // ScaffoldMessenger.of(context)
+                            //     .showSnackBar(snackBar);
 
-                            final snackBar = SnackBar(
-                              content: Text('$password \n $email'),
-                            );
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(snackBar);
-                            Navigator.pushNamed(context, '/home');
+                            // Navigator.pushNamed(context, '/home');
+
+                          } else {
+                            print("Error");
                           }
                         },
                         child: const Text(
@@ -179,99 +285,6 @@ class _SignInState extends State<SignIn> {
           ),
         ),
       ),
-    );
-  }
-}
-
-class EmailFiled extends StatefulWidget {
-  const EmailFiled({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  State<EmailFiled> createState() => _EmailFiledState();
-}
-
-class _EmailFiledState extends State<EmailFiled> {
-  String email = '';
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      keyboardType: TextInputType.emailAddress,
-      decoration: InputDecoration(
-        icon: const Icon(Icons.email),
-        labelText: 'Email',
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
-      ),
-      validator: (value) {
-        const pattern = r'(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)';
-        final regExp = RegExp(pattern);
-        if (value!.isEmpty) {
-          return 'Enter email';
-        } else if (!regExp.hasMatch(value)) {
-          return 'Enter valid email';
-        } else {
-          return null;
-        }
-      },
-      onSaved: (value) => setState(() {
-        email = value!;
-      }),
-    );
-  }
-}
-
-class PasswordField extends StatefulWidget {
-  const PasswordField({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  State<PasswordField> createState() => _PasswordFieldState();
-}
-
-class _PasswordFieldState extends State<PasswordField> {
-  String password = '';
-  bool _showPassword = true;
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      // style: const TextStyle(
-      //   fontSize: 20,
-      // ),
-      obscureText: _showPassword,
-      keyboardType: TextInputType.visiblePassword,
-      decoration: InputDecoration(
-        suffixIcon: IconButton(
-          icon: Icon(
-            _showPassword ? Icons.visibility_off : Icons.visibility,
-          ),
-          onPressed: () {
-            setState(() {
-              _showPassword = !_showPassword;
-            });
-          },
-        ),
-        icon: const Icon(Icons.lock),
-        labelText: 'Password',
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
-      ),
-      validator: (value) {
-        if (value!.length < 8) {
-          return 'Please enter more than 8 charater password';
-        } else {
-          return null;
-        }
-      },
-      onSaved: (value) => setState(() {
-        password = value!;
-      }),
     );
   }
 }
