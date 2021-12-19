@@ -2,9 +2,10 @@
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:home_rental/models/json_model.dart';
-import 'package:home_rental/view/homescreen/details_page.dart';
+import 'package:home_rental/controller/extention.dart';
+
+import 'package:http/http.dart' as http;
+import 'package:home_rental/models/allposts_model.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -13,231 +14,238 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
+String? message;
+List? users;
+
 class _HomeScreenState extends State<HomeScreen> {
-  Future<List<FetchJson>> fetchJson() async {
-    final response = await rootBundle.loadString('assets/rentalapp.json');
+  Future fetchAllPosts() async {
+    final response = await http
+        .get(Uri.parse('https://homeforrent.herokuapp.com/api/getallposts'));
 
-    List<dynamic> jsonModel = jsonDecode(response);
-    List<FetchJson> jsonData =
-        jsonModel.map((i) => FetchJson.fromJson(i)).toList();
+    if (response.statusCode == 200) {
+      var jsonResponse = json.decode(response.body);
+      message = jsonResponse['message'].toString();
+      // users = jsonResponse['users'];
 
-    print(jsonData.length);
-    print(jsonData[1].id);
-    print(jsonData[1].rent);
+      users = jsonResponse['users'].map((user) => User.fromJson(user)).toList();
 
-    return jsonData;
+      // isAvailable = users![1]['available'];
+
+      print(message);
+      print(users!.length);
+      print(users![1].address);
+      print(users![1].username);
+    } else {
+      message = 'Request failed with status: ${response.statusCode}';
+    }
+    return users;
   }
-
-  // @override
-  // void initState() {
-  //   fetchJson();
-  //   super.initState();
-  // }
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Colors.black,
-      systemNavigationBarColor: Colors.black,
-    ));
     return Scaffold(
-      body: SafeArea(
-        child: FutureBuilder<List<FetchJson>>(
-          future: fetchJson(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              var data = snapshot.data;
-              return Column(
-                children: [
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.3,
-                    width: MediaQuery.of(context).size.width,
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        image: NetworkImage(
-                          'https://source.unsplash.com/480x480/?home,house,office',
-                        ),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10.0,
-                  ),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: data!.length,
+        floatingActionButton: FloatingActionButton(
+          child: const Icon(Icons.refresh),
+          onPressed: () {
+            fetchAllPosts();
+          },
+        ),
+        body: NestedScrollView(
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return <Widget>[
+              // Another Widget can be added
+              SliverPersistentHeader(
+                delegate: MySliverAppBar(expandedHeight: 200),
+                pinned: true,
+              )
+            ];
+          },
+          body: Container(
+            color: Colors.deepPurple[100],
+            child: FutureBuilder(
+              future: fetchAllPosts(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return ListView.builder(
                       itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const DetailsPage(
-                                    fetchJson: [],
-                                  ),
-                                  settings: RouteSettings(
-                                    arguments: data[index],
-                                  ),
+                        return InkWell(
+                          onTap: () {},
+                          //TODO Navigation to Details Page
+
+                          child: Column(
+                            children: [
+                              Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15.0),
                                 ),
-                              );
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(20.0),
-                                border: Border.all(color: Colors.grey),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10.0, vertical: 10.0),
-                                child: Row(
-                                  children: <Widget>[
-                                    Stack(
-                                      clipBehavior: Clip.none,
-                                      children: <Widget>[
-                                        ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(15.0),
-                                          child: Image(
-                                            image: NetworkImage(
-                                                data[index].picture.toString()),
-                                            fit: BoxFit.cover,
-                                            height: 240 *
-                                                MediaQuery.of(context)
-                                                    .size
-                                                    .aspectRatio,
-                                            width: 240 *
-                                                MediaQuery.of(context)
-                                                    .size
-                                                    .aspectRatio,
-                                          ),
-                                        ),
-                                        Positioned(
-                                          left: 4.0,
-                                          bottom: 5.0,
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              color: Colors.red,
-                                              borderRadius:
-                                                  BorderRadius.circular(10.0),
-                                            ),
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(4.0),
-                                              child: Row(
-                                                children: <Widget>[
-                                                  Icon(
-                                                    Icons.favorite,
-                                                    color: Colors.white,
-                                                    size: 35 *
-                                                        MediaQuery.of(context)
-                                                            .size
-                                                            .aspectRatio,
-                                                  ),
-                                                  SizedBox(
-                                                    width: 5 *
-                                                        MediaQuery.of(context)
-                                                            .size
-                                                            .aspectRatio,
-                                                  ),
-                                                  Text(
-                                                    data[index]
-                                                        .likes
-                                                        .toString(),
-                                                    style: const TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 14.4),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      width: 25 *
-                                          MediaQuery.of(context)
-                                              .size
-                                              .aspectRatio,
-                                    ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        Text(
-                                          data[index].owner.toString(),
-                                          style: const TextStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 22.2),
-                                        ),
-                                        SizedBox(
-                                          height: 1.3 *
-                                              MediaQuery.of(context)
-                                                  .size
-                                                  .aspectRatio,
-                                        ),
-                                        Text(
-                                          "Price: ${data[index].rent.toString()}",
-                                          style: const TextStyle(
-                                            color: Colors.grey,
-                                            fontSize: 18.8,
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: 10 *
-                                              MediaQuery.of(context)
-                                                  .size
-                                                  .aspectRatio,
-                                        ),
-                                        Row(
-                                          children: <Widget>[
-                                            Text(
-                                              "${data[index].size.toString()} sq.ft",
-                                              style: const TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 20),
-                                            ),
-                                            SizedBox(
-                                              width: 3 *
+                                elevation: 5,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8.0, vertical: 8.0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Stack(
+                                        clipBehavior: Clip.none,
+                                        children: [
+                                          ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            child: Image.network(
+                                              users![index].picture,
+                                              fit: BoxFit.cover,
+                                              height: 250 *
+                                                  MediaQuery.of(context)
+                                                      .size
+                                                      .aspectRatio,
+                                              width: 350 *
                                                   MediaQuery.of(context)
                                                       .size
                                                       .aspectRatio,
                                             ),
-                                          ],
-                                        ),
-                                        const Text(
-                                          "2BHK",
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 20),
-                                        ),
-                                      ],
-                                    )
-                                  ],
+                                          ),
+                                        ],
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            '${users![index].owner}'
+                                                .toTitleCase(),
+                                            style: textStyle(
+                                                size: 22,
+                                                weight: FontWeight.w600),
+                                          ),
+                                          sizedBox(10),
+                                          Text(
+                                            '${users![index].address}'
+                                                .toTitleCase(),
+                                            style: textStyle(),
+                                          ),
+                                          sizedBox(10),
+                                          Text(
+                                            '${users![index].rent} Rs/month',
+                                            style: textStyle(),
+                                          ),
+                                          sizedBox(10),
+                                          Text(
+                                            '${users![index].size} sq. ft.',
+                                            style: textStyle(),
+                                          ),
+                                        ],
+                                      ),
+                                      sizedBox(10),
+                                      IconButton(
+                                          onPressed: () {},
+                                          icon: const Icon(
+                                              Icons.favorite_border_outlined))
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
+                            ],
                           ),
                         );
                       },
-                    ),
-                  ),
-                ],
-              );
-            } else {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-          },
-        ),
-      ),
+                      itemCount: users == null ? 0 : users!.length);
+                } else if (snapshot.hasError) {
+                  return Text("${snapshot.error}");
+                }
+                return const Center(child: CircularProgressIndicator());
+              },
+            ),
+          ),
+        ));
+  }
+
+  SizedBox sizedBox(double height) {
+    return SizedBox(
+      height: height * MediaQuery.of(context).size.aspectRatio,
     );
   }
+
+  TextStyle textStyle({
+    double? size,
+    FontWeight? weight,
+    MaterialColor? color,
+  }) =>
+      TextStyle(
+        fontSize: size ?? 18,
+        fontWeight: weight ?? FontWeight.normal,
+        color: color ?? Colors.black,
+      );
+}
+
+class MySliverAppBar extends SliverPersistentHeaderDelegate {
+  final double expandedHeight;
+
+  MySliverAppBar({required this.expandedHeight});
+
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return Stack(
+      fit: StackFit.expand,
+      clipBehavior: Clip.none,
+      children: [
+        Image.network(
+          "https://source.unsplash.com/240x240/?house,home,rent",
+          fit: BoxFit.cover,
+        ),
+        Center(
+          child: Opacity(
+            opacity: shrinkOffset / expandedHeight,
+            child: const Text(
+              "Room's For Rent",
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w700,
+                fontSize: 22,
+              ),
+            ),
+          ),
+        ),
+        Positioned(
+          top: expandedHeight / 1.2 - shrinkOffset,
+          left: MediaQuery.of(context).size.width / 13,
+          child: Opacity(
+            opacity: (1 - shrinkOffset / expandedHeight),
+            child: Card(
+              elevation: 10,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(50),
+                ),
+                height: MediaQuery.of(context).size.width / 8,
+                width: MediaQuery.of(context).size.width / 1.2,
+                child: TextFormField(
+                  decoration: const InputDecoration(
+                    focusedBorder: OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: Colors.greenAccent, width: 5.0),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.purple, width: 5.0),
+                    ),
+                    hintText: "Search",
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  @override
+  double get maxExtent => expandedHeight;
+
+  @override
+  double get minExtent => kToolbarHeight;
+
+  @override
+  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) => true;
 }

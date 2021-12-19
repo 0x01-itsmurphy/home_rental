@@ -30,7 +30,7 @@ class _SignInState extends State<SignIn> {
 
   Future signInApiPost() async {
     final response = await http.post(
-      Uri.parse("http://192.168.1.4:8000/api/auth/signin"),
+      Uri.parse("https://homeforrent.herokuapp.com/profile/signin"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -68,7 +68,7 @@ class _SignInState extends State<SignIn> {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.all(20),
+                padding: const EdgeInsets.fromLTRB(20, 20, 40, 0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -231,6 +231,9 @@ class _SignInState extends State<SignIn> {
                   ),
                 ),
               ),
+              const SizedBox(
+                height: 10,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -238,21 +241,21 @@ class _SignInState extends State<SignIn> {
                     onPressed: () => print('Google'),
                     child: const Image(
                       image: AssetImage('assets/images/google-logo.png'),
-                      height: 80,
-                      width: 50,
+                      height: 50,
+                      width: 80,
                     ),
                   ),
                   OutlinedButton(
                     onPressed: () => print('Twitter'),
                     child: const Image(
                       image: AssetImage('assets/images/twitter.png'),
-                      height: 80,
-                      width: 50,
+                      height: 50,
+                      width: 80,
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -264,23 +267,20 @@ class _SignInState extends State<SignIn> {
                     ),
                   ),
                   TextButton(
-                      onPressed: () {
-                        widget.toggle();
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (context) => const SignUp()));
-                      },
-                      child: const Text(
-                        "Register",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.blue,
-                        ),
-                      )),
+                    onPressed: () {
+                      widget.toggle();
+                    },
+                    child: const Text(
+                      "Register",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blue,
+                      ),
+                    ),
+                  ),
                 ],
-              )
+              ),
             ],
           ),
         ),

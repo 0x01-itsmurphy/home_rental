@@ -20,7 +20,7 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   final _formKey = GlobalKey<FormState>();
 
-  String name = '';
+  String username = '';
   String email = '';
   String password = '';
 
@@ -31,13 +31,13 @@ class _SignUpState extends State<SignUp> {
 
   Future registerApiPost() async {
     final response = await http.post(
-      Uri.parse("http://192.168.1.4:8000/api/auth/signup"),
+      Uri.parse("https://homeforrent.herokuapp.com/profile/signup"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(
         <String, String>{
-          'name': name,
+          'username': username,
           'email': email,
           'password': password,
         },
@@ -46,6 +46,7 @@ class _SignUpState extends State<SignUp> {
 
     setState(() {
       message = jsonDecode(response.body);
+      print(response.body);
       messageData = message!['message'].toString();
       print(message);
     });
@@ -114,7 +115,7 @@ class _SignUpState extends State<SignUp> {
                     TextFormField(
                       decoration: InputDecoration(
                         icon: const Icon(Icons.person),
-                        labelText: 'Full Name',
+                        labelText: 'Username',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -122,13 +123,13 @@ class _SignUpState extends State<SignUp> {
                       maxLength: 30,
                       validator: (value) {
                         if (value!.length < 5) {
-                          return 'Please enter a valid name';
+                          return 'Please enter a valid username';
                         } else {
                           return null;
                         }
                       },
                       onChanged: (value) => setState(() {
-                        name = value;
+                        username = value;
                       }),
                     ),
                     const SizedBox(height: 10),
@@ -202,7 +203,7 @@ class _SignUpState extends State<SignUp> {
                         borderRadius: BorderRadius.circular(10),
                         color: Colors.blue,
                       ),
-                      child: GestureDetector(
+                      child: InkWell(
                         onTap: () {
                           final isValid = _formKey.currentState!.validate();
                           if (isValid) {
@@ -212,7 +213,7 @@ class _SignUpState extends State<SignUp> {
                             });
                             print("sign up clicked");
                           } else {
-                            print("Error");
+                            print("Please Register");
                           }
                         },
                         // onTap: () {
@@ -253,7 +254,7 @@ class _SignUpState extends State<SignUp> {
                     child: const Image(
                       image: AssetImage('assets/images/google-logo.png'),
                       height: 50,
-                      width: 90,
+                      width: 80,
                     ),
                   ),
                   OutlinedButton(
@@ -266,7 +267,7 @@ class _SignUpState extends State<SignUp> {
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

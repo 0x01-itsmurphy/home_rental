@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:home_rental/models/json_model.dart';
+import 'package:home_rental/models/allposts_model.dart';
 
 class DetailsPage extends StatefulWidget {
   const DetailsPage({
     Key? key,
-    required this.fetchJson,
+    required this.users,
   }) : super(key: key);
 
-  final List<FetchJson> fetchJson;
+  final User users;
 
   @override
   _DetailsPageState createState() => _DetailsPageState();
@@ -16,7 +16,8 @@ class DetailsPage extends StatefulWidget {
 class _DetailsPageState extends State<DetailsPage> {
   @override
   Widget build(BuildContext context) {
-    final data = ModalRoute.of(context)!.settings.arguments as FetchJson;
+    
+    final data = ModalRoute.of(context)!.settings.arguments as User;
 
     return Scaffold(
       appBar: AppBar(
