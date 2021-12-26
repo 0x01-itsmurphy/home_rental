@@ -3,7 +3,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:home_rental/controller/extention.dart';
+import 'package:home_rental/view/details_page/details_page.dart';
+import 'package:home_rental/widgets/homepage_widget.dart';
 
+import 'package:simple_speed_dial/simple_speed_dial.dart';
 import 'package:http/http.dart' as http;
 import 'package:home_rental/models/allposts_model.dart';
 
@@ -15,7 +18,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 String? message;
-List? users;
+List<User>? users;
+// String _text = '';
 
 class _HomeScreenState extends State<HomeScreen> {
   Future fetchAllPosts() async {
@@ -25,11 +29,9 @@ class _HomeScreenState extends State<HomeScreen> {
     if (response.statusCode == 200) {
       var jsonResponse = json.decode(response.body);
       message = jsonResponse['message'].toString();
-      // users = jsonResponse['users'];
+      var list = jsonResponse['users'] as List;
 
-      users = jsonResponse['users'].map((user) => User.fromJson(user)).toList();
-
-      // isAvailable = users![1]['available'];
+      users = list.map((user) => User.fromJson(user)).toList();
 
       print(message);
       print(users!.length);
@@ -47,7 +49,9 @@ class _HomeScreenState extends State<HomeScreen> {
         floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.refresh),
           onPressed: () {
-            fetchAllPosts();
+            setState(() {
+              fetchAllPosts();
+            });
           },
         ),
         body: NestedScrollView(
@@ -69,9 +73,19 @@ class _HomeScreenState extends State<HomeScreen> {
                   return ListView.builder(
                       itemBuilder: (context, index) {
                         return InkWell(
-                          onTap: () {},
-                          //TODO Navigation to Details Page
-
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const DetailsPage(
+                                    // users: users![index],
+                                    ),
+                                settings: RouteSettings(
+                                  arguments: users![index],
+                                ),
+                              ),
+                            );
+                          },
                           child: Column(
                             children: [
                               Card(
@@ -93,7 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             borderRadius:
                                                 BorderRadius.circular(10),
                                             child: Image.network(
-                                              users![index].picture,
+                                              users![index].picture.toString(),
                                               fit: BoxFit.cover,
                                               height: 250 *
                                                   MediaQuery.of(context)
@@ -107,36 +121,44 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ),
                                         ],
                                       ),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            '${users![index].owner}'
-                                                .toTitleCase(),
-                                            style: textStyle(
-                                                size: 22,
-                                                weight: FontWeight.w600),
-                                          ),
-                                          sizedBox(10),
-                                          Text(
-                                            '${users![index].address}'
-                                                .toTitleCase(),
-                                            style: textStyle(),
-                                          ),
-                                          sizedBox(10),
-                                          Text(
-                                            '${users![index].rent} Rs/month',
-                                            style: textStyle(),
-                                          ),
-                                          sizedBox(10),
-                                          Text(
-                                            '${users![index].size} sq. ft.',
-                                            style: textStyle(),
-                                          ),
-                                        ],
+                                      const SizedBox(
+                                        width: 20,
                                       ),
-                                      sizedBox(10),
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              '${users![index].owner}'
+                                                  .toTitleCase(),
+                                              style: textStyle(
+                                                  size: 22,
+                                                  weight: FontWeight.w600),
+                                            ),
+                                            const CustomSizeBox(height: 10),
+                                            Text(
+                                              '${users![index].address}'
+                                                  .toTitleCase(),
+                                              overflow: TextOverflow.fade,
+                                              maxLines: 1,
+                                              softWrap: false,
+                                              style: textStyle(),
+                                            ),
+                                            const CustomSizeBox(height: 10),
+                                            Text(
+                                              '${users![index].rent} Rs/month',
+                                              style: textStyle(),
+                                            ),
+                                            const CustomSizeBox(height: 10),
+                                            Text(
+                                              '${users![index].size} sq. ft.',
+                                              style: textStyle(),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      const CustomSizeBox(height: 10),
                                       IconButton(
                                           onPressed: () {},
                                           icon: const Icon(
@@ -160,12 +182,6 @@ class _HomeScreenState extends State<HomeScreen> {
         ));
   }
 
-  SizedBox sizedBox(double height) {
-    return SizedBox(
-      height: height * MediaQuery.of(context).size.aspectRatio,
-    );
-  }
-
   TextStyle textStyle({
     double? size,
     FontWeight? weight,
@@ -176,76 +192,4 @@ class _HomeScreenState extends State<HomeScreen> {
         fontWeight: weight ?? FontWeight.normal,
         color: color ?? Colors.black,
       );
-}
-
-class MySliverAppBar extends SliverPersistentHeaderDelegate {
-  final double expandedHeight;
-
-  MySliverAppBar({required this.expandedHeight});
-
-  @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return Stack(
-      fit: StackFit.expand,
-      clipBehavior: Clip.none,
-      children: [
-        Image.network(
-          "https://source.unsplash.com/240x240/?house,home,rent",
-          fit: BoxFit.cover,
-        ),
-        Center(
-          child: Opacity(
-            opacity: shrinkOffset / expandedHeight,
-            child: const Text(
-              "Room's For Rent",
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w700,
-                fontSize: 22,
-              ),
-            ),
-          ),
-        ),
-        Positioned(
-          top: expandedHeight / 1.2 - shrinkOffset,
-          left: MediaQuery.of(context).size.width / 13,
-          child: Opacity(
-            opacity: (1 - shrinkOffset / expandedHeight),
-            child: Card(
-              elevation: 10,
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50),
-                ),
-                height: MediaQuery.of(context).size.width / 8,
-                width: MediaQuery.of(context).size.width / 1.2,
-                child: TextFormField(
-                  decoration: const InputDecoration(
-                    focusedBorder: OutlineInputBorder(
-                      borderSide:
-                          BorderSide(color: Colors.greenAccent, width: 5.0),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.purple, width: 5.0),
-                    ),
-                    hintText: "Search",
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  @override
-  double get maxExtent => expandedHeight;
-
-  @override
-  double get minExtent => kToolbarHeight;
-
-  @override
-  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) => true;
 }

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:home_rental/models/allposts_model.dart';
+import 'package:home_rental/widgets/details_page_widgets.dart';
 
 class DetailsPage extends StatefulWidget {
   const DetailsPage({
     Key? key,
-    required this.users,
+    // required this.users,
   }) : super(key: key);
 
-  final User users;
+  // final User users;
 
   @override
   _DetailsPageState createState() => _DetailsPageState();
@@ -16,7 +17,6 @@ class DetailsPage extends StatefulWidget {
 class _DetailsPageState extends State<DetailsPage> {
   @override
   Widget build(BuildContext context) {
-    
     final data = ModalRoute.of(context)!.settings.arguments as User;
 
     return Scaffold(
@@ -45,14 +45,14 @@ class _DetailsPageState extends State<DetailsPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    data.owner.toString(),
+                    data.owner.toString().toUpperCase(),
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: MediaQuery.of(context).size.height * 0.04,
                         fontWeight: FontWeight.w600),
                   ),
                   Text(
-                    "Available: " + data.available.toString(),
+                    "Available?: " + data.available.toString(),
                     style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -61,64 +61,67 @@ class _DetailsPageState extends State<DetailsPage> {
                 ],
               ),
               const SizedBox(
-                height: 5,
+                height: 15,
               ),
-              Text(
-                "Apartment: " + data.apartment.toString(),
-                style: TextStyle(
-                    color: Colors.grey[700],
-                    fontSize: MediaQuery.of(context).size.height * 0.025,
-                    fontWeight: FontWeight.w500),
+              ContactWidget(
+                icon: Icons.apartment,
+                text: data.apartment.toString(),
               ),
               const SizedBox(
                 height: 5,
               ),
-              Text(
-                "Address: " +
-                    data.address.toString() +
-                    ", " +
-                    data.city.toString(),
-                style: TextStyle(
-                    color: Colors.grey[700],
-                    fontSize: MediaQuery.of(context).size.height * 0.025,
-                    fontWeight: FontWeight.w500),
+              ContactWidget(
+                icon: Icons.location_on,
+                text: data.address.toString(),
               ),
               const SizedBox(
                 height: 5,
               ),
-              Text(
-                "Contact: ${data.phone.toString()}",
-                style: TextStyle(
-                    color: Colors.grey[700],
-                    fontSize: MediaQuery.of(context).size.height * 0.025,
-                    fontWeight: FontWeight.w500),
+              ContactWidget(
+                icon: Icons.phone,
+                text: data.phone.toString(),
+              ),
+              
+              ContactWidget(
+                icon: Icons.description,
+                text: data.description.toString(),
               ),
               const SizedBox(
                 height: 20,
               ),
               Text(
-                "Facilities",
+                "Facilities".toUpperCase(),
                 style: TextStyle(
                     color: Colors.black,
-                    fontSize: MediaQuery.of(context).size.height * 0.030,
+                    fontSize: MediaQuery.of(context).size.height * 0.025,
                     fontWeight: FontWeight.w600),
               ),
               const SizedBox(
                 height: 10,
               ),
-              SingleChildScrollView(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    _iconsCard("assets/images/router.png", "Wifi"),
-                    _iconsCard("assets/images/heater.png", "Heater"),
-                    _iconsCard("assets/images/tray.png", "Food"),
-                    _iconsCard("assets/images/gym.png", "Gym"),
-                  ],
-                ),
+              Wrap(
+                // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: const <Widget>[
+                  Facilities(
+                    asset: 'assets/images/router.png',
+                    name: 'Wifi',
+                  ),
+                  Facilities(
+                    asset: 'assets/images/heater.png',
+                    name: 'Heater',
+                  ),
+                  Facilities(
+                    asset: 'assets/images/tray.png',
+                    name: 'Food',
+                  ),
+                  Facilities(
+                    asset: 'assets/images/gym.png',
+                    name: 'Gym',
+                  ),
+                ],
               ),
               const SizedBox(
-                height: 20,
+                height: 30,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -183,39 +186,7 @@ class _DetailsPageState extends State<DetailsPage> {
     );
   }
 
-  _iconsCard(String asset, String name) {
-    return SingleChildScrollView(
-      child: Container(
-        decoration: BoxDecoration(
-            color: Colors.blue[100],
-            borderRadius: BorderRadius.zero,
-            border: Border.all(color: Colors.black)),
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-            vertical: MediaQuery.of(context).size.height * 0.01,
-            horizontal: MediaQuery.of(context).size.height * 0.02,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Image.asset(
-                asset,
-                height: 2 * MediaQuery.of(context).size.height * 0.02,
-                width: 2 * MediaQuery.of(context).size.height * 0.02,
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              Text(
-                name,
-                style: TextStyle(
-                    fontSize: MediaQuery.of(context).size.height * 0.025,
-                    fontWeight: FontWeight.w600),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+  // _iconsCard(String asset, String name) {
+  //   return
+  // }
 }
