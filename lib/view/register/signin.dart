@@ -3,6 +3,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:home_rental/controller/loading.dart';
+import 'package:home_rental/view/homescreen/homescreen.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -21,6 +23,8 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
   final _formKey = GlobalKey<FormState>();
+
+  bool loading = false;
 
   String email = '';
   String password = '';
@@ -52,9 +56,9 @@ class _SignInState extends State<SignIn> {
     token = message!['token'].toString();
     await storage.write(key: "token", value: token);
 
-    print(message);
-    print(messageData);
-    print(token);
+    print("Json --> $message");
+    print("JsonDecoded --> $messageData");
+    print("Token --> $token");
 
     // if (response.statusCode == 200) {
     //   return Navigator.pushNamed(context, '/home');
@@ -63,9 +67,16 @@ class _SignInState extends State<SignIn> {
       content: Text('$email \n$messageData'),
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    setState(() {
+      loading = false;
+    });
 
     if (response.statusCode == 200) {
-      return Navigator.pushReplacementNamed(context, '/home');
+      setState(() {
+        loading = false;
+      });
+      return Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => const HomeScreen()));
     }
   }
 
@@ -86,7 +97,7 @@ class _SignInState extends State<SignIn> {
                       style: TextStyle(
                         fontSize: 40,
                         fontWeight: FontWeight.bold,
-                        color: Colors.blue,
+                        color: Colors.deepPurple,
                       ),
                     ),
                     const Text(
@@ -194,34 +205,41 @@ class _SignInState extends State<SignIn> {
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        color: Colors.blue,
+                        color: Colors.deepPurple,
                       ),
-                      child: GestureDetector(
-                        onTap: () {
-                          final isValid = _formKey.currentState!.validate();
-                          if (isValid) {
-                            _formKey.currentState!.setState(() {
-                              signInApiPost();
-                            });
-                            print("SignIn Button Clicked");
-                            // final snackBar = SnackBar(
-                            //   content: Text(
-                            //       '$email \n${message!['message'].toString()}'),
-                            // );
-                            // ScaffoldMessenger.of(context)
-                            //     .showSnackBar(snackBar);
+                      child: loading
+                          ? const Loading()
+                          : InkWell(
+                              onTap: () {
+                                final isValid =
+                                    _formKey.currentState!.validate();
+                                if (isValid) {
+                                  _formKey.currentState!.setState(() {
+                                    signInApiPost();
+                                  });
+                                  print("SignIn Button Clicked");
+                                  setState(() {
+                                    loading = true;
+                                  });
+                                  // final snackBar = SnackBar(
+                                  //   content: Text(
+                                  //       '$email \n${message!['message'].toString()}'),
+                                  // );
+                                  // ScaffoldMessenger.of(context)
+                                  //     .showSnackBar(snackBar);
 
-                            // Navigator.pushNamed(context, '/home');
+                                  // Navigator.pushNamed(context, '/home');
 
-                          } else {
-                            print("Error fetching Api");
-                          }
-                        },
-                        child: const Text(
-                          'Sign In',
-                          style: TextStyle(color: Colors.white, fontSize: 25),
-                        ),
-                      ),
+                                } else {
+                                  print("Error fetching Api");
+                                }
+                              },
+                              child: const Text(
+                                'Sign In',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 25),
+                              ),
+                            ),
                     ),
                   ]),
                 ),
@@ -284,7 +302,7 @@ class _SignInState extends State<SignIn> {
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: Colors.blue,
+                        color: Colors.deepPurple,
                       ),
                     ),
                   ),
