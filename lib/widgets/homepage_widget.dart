@@ -12,8 +12,8 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
       fit: StackFit.expand,
       clipBehavior: Clip.none,
       children: [
-        Image.network(
-          "https://source.unsplash.com/240x240/?house,home,rent",
+        Image.asset(
+          "assets/images/header.png",
           fit: BoxFit.cover,
         ),
         Center(
@@ -88,5 +88,3 @@ class CustomSizeBox extends StatelessWidget {
     );
   }
 }
-
-

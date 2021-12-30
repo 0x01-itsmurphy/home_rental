@@ -5,6 +5,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
 class SignIn extends StatefulWidget {
   const SignIn({
     Key? key,
@@ -25,6 +27,9 @@ class _SignInState extends State<SignIn> {
 
   Map? message;
   String? messageData;
+  String? token;
+
+  final storage = const FlutterSecureStorage();
 
   bool _showPassword = true;
 
@@ -42,11 +47,15 @@ class _SignInState extends State<SignIn> {
       ),
     );
 
-    setState(() {
-      message = jsonDecode(response.body);
-      messageData = message!['message'].toString();
-      print(message);
-    });
+    message = jsonDecode(response.body);
+    messageData = message!['message'].toString();
+    token = message!['token'].toString();
+    await storage.write(key: "token", value: token);
+
+    print(message);
+    print(messageData);
+    print(token);
+
     // if (response.statusCode == 200) {
     //   return Navigator.pushNamed(context, '/home');
     // }
@@ -194,7 +203,7 @@ class _SignInState extends State<SignIn> {
                             _formKey.currentState!.setState(() {
                               signInApiPost();
                             });
-                            print("OK");
+                            print("SignIn Button Clicked");
                             // final snackBar = SnackBar(
                             //   content: Text(
                             //       '$email \n${message!['message'].toString()}'),
@@ -205,7 +214,7 @@ class _SignInState extends State<SignIn> {
                             // Navigator.pushNamed(context, '/home');
 
                           } else {
-                            print("Error");
+                            print("Error fetching Api");
                           }
                         },
                         child: const Text(

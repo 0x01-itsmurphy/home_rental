@@ -52,12 +52,23 @@ class _SignUpState extends State<SignUp> {
     });
 
     final snackBar = SnackBar(
-      content: Text('$email \n$messageData'),
+      content: Text(
+        '$email \n$messageData',
+        style: const TextStyle(color: Colors.black),
+      ),
+      backgroundColor: Colors.green,
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
     if (response.statusCode == 200) {
-      return Navigator.pushReplacementNamed(context, '/home');
+      return Navigator.pushReplacementNamed(context, '/');
+    } else if (response.statusCode == 500) {
+      final snackBar = SnackBar(
+        content: Text('$email \n$messageData',
+            style: const TextStyle(color: Colors.black)),
+        backgroundColor: Colors.redAccent,
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
   }
 
