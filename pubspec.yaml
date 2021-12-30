@@ -51,9 +51,11 @@ dev_dependencies:
   image_picker: ^0.8.4+4
   flutter_secure_storage: ^5.0.2
   flutter_spinkit: ^5.1.0
+  google_fonts: ^2.2.0
+  flutter_svg: ^1.0.0
 
 flutter_native_splash:
-  color: "#ffffff"
+  color: "#090000"
   image: assets/splash.png
   android: true
   ios: true
@@ -74,6 +76,7 @@ flutter:
   assets:
     - assets/
     - assets/images/
+    - assets/facilities-Icons/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

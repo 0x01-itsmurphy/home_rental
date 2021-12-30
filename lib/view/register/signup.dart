@@ -72,8 +72,8 @@ class _SignUpState extends State<SignUp> {
       setState(() {
         loading = false;
       });
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => const Authentication()));
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) => const Authentication()));
     } else if (response.statusCode == 500) {
       final snackBar = SnackBar(
         content: Text('$email \n$messageData',

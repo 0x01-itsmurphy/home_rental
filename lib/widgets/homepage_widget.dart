@@ -13,22 +13,22 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
       clipBehavior: Clip.none,
       children: [
         Image.asset(
-          "assets/images/header.png",
+          "assets/images/undraw_rent_house.png",
           fit: BoxFit.cover,
         ),
-        Center(
-          child: Opacity(
-            opacity: shrinkOffset / expandedHeight,
-            child: const Text(
-              "Room's For Rent",
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w700,
-                fontSize: 22,
-              ),
-            ),
-          ),
-        ),
+        // Center(
+        //   child: Opacity(
+        //     opacity: shrinkOffset / expandedHeight,
+        //     child: const Text(
+        //       "Room's For Rent",
+        //       style: TextStyle(
+        //         color: Colors.white,
+        //         fontWeight: FontWeight.w700,
+        //         fontSize: 22,
+        //       ),
+        //     ),
+        //   ),
+        // ),
         Positioned(
           top: expandedHeight / 1.2 - shrinkOffset,
           left: MediaQuery.of(context).size.width / 13,

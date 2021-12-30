@@ -118,6 +118,7 @@ class _PostDataState extends State<PostData> {
         title: const Text("Upload Your Information"),
       ),
       body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
         child: Center(
           child: Form(
             key: _formKey,

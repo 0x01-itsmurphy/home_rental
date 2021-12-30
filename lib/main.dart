@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:home_rental/view/homescreen/homescreen.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:home_rental/view/welcome.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() async {
   runApp(const MyApp());
@@ -46,7 +47,9 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      themeMode: ThemeMode.dark,
       theme: ThemeData(
+        fontFamily: GoogleFonts.ubuntu().fontFamily,
         primarySwatch: Colors.deepPurple,
       ),
       debugShowCheckedModeBanner: false,

@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:home_rental/controller/extention.dart';
+import 'package:home_rental/controller/loading.dart';
 import 'package:home_rental/view/details_page/details_page.dart';
 import 'package:home_rental/view/post_data/user_data_post.dart';
 import 'package:home_rental/widgets/homepage_widget.dart';
@@ -20,6 +21,7 @@ class HomeScreen extends StatefulWidget {
 String? message;
 List<User>? users;
 // String _text = '';
+bool loading = true;
 
 class _HomeScreenState extends State<HomeScreen> {
   Future fetchAllPosts() async {
@@ -40,6 +42,10 @@ class _HomeScreenState extends State<HomeScreen> {
     } else {
       message = 'Request failed with status: ${response.statusCode}';
     }
+
+    setState(() {
+      loading = false;
+    });
     return users;
   }
 
@@ -51,12 +57,13 @@ class _HomeScreenState extends State<HomeScreen> {
           backgroundColor: Colors.deepPurple,
           activeBackgroundColor: Colors.black,
           overlayOpacity: 0.4,
+          overlayColor: Colors.black12,
           spaceBetweenChildren: 8,
           children: <SpeedDialChild>[
             SpeedDialChild(
               child: const Icon(Icons.post_add),
               foregroundColor: Colors.white,
-              backgroundColor: Colors.deepPurple[400],
+              backgroundColor: Colors.deepPurple,
               label: 'Post',
               onTap: () {
                 Navigator.push(context,
@@ -66,14 +73,15 @@ class _HomeScreenState extends State<HomeScreen> {
             SpeedDialChild(
               child: const Icon(Icons.settings),
               foregroundColor: Colors.white,
-              backgroundColor: Colors.deepPurple[400],
+              backgroundColor: Colors.deepPurple,
               label: 'Settings',
               onTap: () {},
             ),
           ],
         ),
         body: NestedScrollView(
-          physics: const BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(
+              parent: AlwaysScrollableScrollPhysics()),
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
               // Another Widget can be added
@@ -96,15 +104,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     return ListView.builder(
+                        physics: const BouncingScrollPhysics(
+                            parent: AlwaysScrollableScrollPhysics()),
                         itemBuilder: (context, index) {
                           return InkWell(
                             onTap: () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const DetailsPage(
-                                      // users: users![index],
-                                      ),
+                                  builder: (context) => const DetailsPage(),
                                   settings: RouteSettings(
                                     arguments: users![index],
                                   ),
@@ -125,28 +133,33 @@ class _HomeScreenState extends State<HomeScreen> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Stack(
-                                          clipBehavior: Clip.none,
-                                          children: [
-                                            ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              child: Image.network(
-                                                users![index]
-                                                    .picture
-                                                    .toString(),
-                                                fit: BoxFit.cover,
-                                                height: 250 *
-                                                    MediaQuery.of(context)
-                                                        .size
-                                                        .aspectRatio,
-                                                width: 300 *
-                                                    MediaQuery.of(context)
-                                                        .size
-                                                        .aspectRatio,
-                                              ),
+                                        Container(
+                                          padding: EdgeInsets.zero,
+                                          height: 250 *
+                                              MediaQuery.of(context)
+                                                  .size
+                                                  .aspectRatio,
+                                          width: 300 *
+                                              MediaQuery.of(context)
+                                                  .size
+                                                  .aspectRatio,
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            child: Image.network(
+                                              users![index].picture.toString(),
+                                              fit: BoxFit.cover,
+                                              frameBuilder:
+                                                  (context, child, frame, _) {
+                                                if (frame == null) {
+                                                  // fallback to placeholder
+                                                  return const Center(
+                                                      child: Loading());
+                                                }
+                                                return child;
+                                              },
                                             ),
-                                          ],
+                                          ),
                                         ),
                                         const SizedBox(
                                           width: 20,
