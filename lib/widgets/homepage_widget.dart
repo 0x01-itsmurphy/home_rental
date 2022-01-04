@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 
 class MySliverAppBar extends SliverPersistentHeaderDelegate {
   final double expandedHeight;
 
   MySliverAppBar({required this.expandedHeight});
-  final controller = FloatingSearchBarController();
 
   @override
   Widget build(

@@ -24,10 +24,9 @@ String? message;
 List<User>? users;
 
 bool loading = true;
-String query = '';
 
 class _HomeScreenState extends State<HomeScreen> {
-  Future fetchAllPosts(String query) async {
+  Future fetchAllPosts() async {
     final response = await http
         .get(Uri.parse('https://homeforrent.herokuapp.com/api/getallposts'));
 
@@ -46,9 +45,9 @@ class _HomeScreenState extends State<HomeScreen> {
           message = 'Request failed with status: ${response.statusCode}');
     }
 
-    setState(() {
-      loading = false;
-    });
+    // setState(() {
+    //   loading = false;
+    // });
     return users;
   }
 
@@ -153,12 +152,13 @@ class _HomeScreenState extends State<HomeScreen> {
             },
             body: RefreshIndicator(
               onRefresh: () async {
+                await Future.delayed(const Duration(seconds: 2));
                 setState(() {
-                  fetchAllPosts(query);
+                  fetchAllPosts();
                 });
               },
               child: FutureBuilder(
-                future: fetchAllPosts(query),
+                future: fetchAllPosts(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     return ListView.builder(
