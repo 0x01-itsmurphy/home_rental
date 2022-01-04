@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:home_rental/controller/loading.dart';
 import 'package:home_rental/models/allposts_model.dart';
 import 'package:home_rental/widgets/details_page_widgets.dart';
 
@@ -15,6 +16,7 @@ class DetailsPage extends StatefulWidget {
 }
 
 class _DetailsPageState extends State<DetailsPage> {
+  bool loading = false;
   @override
   Widget build(BuildContext context) {
     final data = ModalRoute.of(context)!.settings.arguments as User;
@@ -22,6 +24,11 @@ class _DetailsPageState extends State<DetailsPage> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
+        title: Text(
+          "Available: " + data.available.toString(),
+          style: const TextStyle(
+              fontSize: 16, fontWeight: FontWeight.bold, color: Colors.grey),
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -30,13 +37,26 @@ class _DetailsPageState extends State<DetailsPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Container(
+                padding: EdgeInsets.zero,
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height * 0.3,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20.0),
-                    image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: NetworkImage(data.picture.toString()))),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Image.network(
+                    data.picture.toString(),
+                    fit: BoxFit.cover,
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) {
+                        return child;
+                      } else {
+                        return const Center(
+                          child: Loading(),
+                          
+                        );
+                      }
+                    },
+                  ),
+                ),
               ),
               const SizedBox(
                 height: 20,
@@ -44,19 +64,14 @@ class _DetailsPageState extends State<DetailsPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    data.owner.toString().toUpperCase(),
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: MediaQuery.of(context).size.height * 0.04,
-                        fontWeight: FontWeight.w600),
-                  ),
-                  Text(
-                    "Available?: " + data.available.toString(),
-                    style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.grey),
+                  Expanded(
+                    child: Text(
+                      data.owner.toString().toUpperCase(),
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: MediaQuery.of(context).size.height * 0.035,
+                          fontWeight: FontWeight.w600),
+                    ),
                   ),
                 ],
               ),
@@ -78,10 +93,16 @@ class _DetailsPageState extends State<DetailsPage> {
                 height: 5,
               ),
               ContactWidget(
+                icon: Icons.location_on,
+                text: data.city.toString(),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              ContactWidget(
                 icon: Icons.phone,
                 text: data.phone.toString(),
               ),
-              
               ContactWidget(
                 icon: Icons.description,
                 text: data.description.toString(),
@@ -103,19 +124,19 @@ class _DetailsPageState extends State<DetailsPage> {
                 // mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: const <Widget>[
                   Facilities(
-                    asset: 'assets/images/router.png',
+                    asset: 'assets/facilities-Icons/router.png',
                     name: 'Wifi',
                   ),
                   Facilities(
-                    asset: 'assets/images/heater.png',
+                    asset: 'assets/facilities-Icons/heater.png',
                     name: 'Heater',
                   ),
                   Facilities(
-                    asset: 'assets/images/tray.png',
+                    asset: 'assets/facilities-Icons/tray.png',
                     name: 'Food',
                   ),
                   Facilities(
-                    asset: 'assets/images/gym.png',
+                    asset: 'assets/facilities-Icons/gym.png',
                     name: 'Gym',
                   ),
                 ],
@@ -185,8 +206,4 @@ class _DetailsPageState extends State<DetailsPage> {
       ),
     );
   }
-
-  // _iconsCard(String asset, String name) {
-  //   return
-  // }
 }

@@ -3,6 +3,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:home_rental/controller/authentication.dart';
+import 'package:home_rental/controller/loading.dart';
 import 'package:http/http.dart' as http;
 
 class SignUp extends StatefulWidget {
@@ -20,6 +22,8 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   final _formKey = GlobalKey<FormState>();
 
+  bool loading = false;
+
   String username = '';
   String email = '';
   String password = '';
@@ -28,6 +32,7 @@ class _SignUpState extends State<SignUp> {
   String? messageData;
 
   bool _showPassword = true;
+  bool toggle = false;
 
   Future registerApiPost() async {
     final response = await http.post(
@@ -46,9 +51,9 @@ class _SignUpState extends State<SignUp> {
 
     setState(() {
       message = jsonDecode(response.body);
-      print(response.body);
+      print("Response body --> ${response.body}");
       messageData = message!['message'].toString();
-      print(message);
+      print("Message --> $message");
     });
 
     final snackBar = SnackBar(
@@ -59,9 +64,16 @@ class _SignUpState extends State<SignUp> {
       backgroundColor: Colors.green,
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    setState(() {
+      loading = false;
+    });
 
     if (response.statusCode == 200) {
-      return Navigator.pushReplacementNamed(context, '/');
+      setState(() {
+        loading = false;
+      });
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) => const Authentication()));
     } else if (response.statusCode == 500) {
       final snackBar = SnackBar(
         content: Text('$email \n$messageData',
@@ -89,7 +101,7 @@ class _SignUpState extends State<SignUp> {
                       style: TextStyle(
                         fontSize: 40,
                         fontWeight: FontWeight.bold,
-                        color: Colors.blue,
+                        color: Colors.deepPurple,
                       ),
                     ),
                     const Text(
@@ -212,33 +224,40 @@ class _SignUpState extends State<SignUp> {
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        color: Colors.blue,
+                        color: Colors.deepPurple,
                       ),
-                      child: InkWell(
-                        onTap: () {
-                          final isValid = _formKey.currentState!.validate();
-                          if (isValid) {
-                            _formKey.currentState!.setState(() {
-                              registerApiPost();
-                              print("object");
-                            });
-                            print("sign up clicked");
-                          } else {
-                            print("Please Register");
-                          }
-                        },
-                        // onTap: () {
-                        //   print("signup");
-                        //   Navigator.push(
-                        //       context,
-                        //       MaterialPageRoute(
-                        //           builder: (context) => const HomeScreen()));
-                        // },
-                        child: const Text(
-                          'Sign Up',
-                          style: TextStyle(color: Colors.white, fontSize: 25),
-                        ),
-                      ),
+                      child: loading
+                          ? const Loading()
+                          : InkWell(
+                              onTap: () {
+                                final isValid =
+                                    _formKey.currentState!.validate();
+                                if (isValid) {
+                                  _formKey.currentState!.setState(() {
+                                    registerApiPost();
+                                    print("object");
+                                  });
+                                  print("sign up clicked");
+                                  setState(() {
+                                    loading = true;
+                                  });
+                                } else {
+                                  print("Please Register");
+                                }
+                              },
+                              // onTap: () {
+                              //   print("signup");
+                              //   Navigator.push(
+                              //       context,
+                              //       MaterialPageRoute(
+                              //           builder: (context) => const HomeScreen()));
+                              // },
+                              child: const Text(
+                                'Sign Up',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 25),
+                              ),
+                            ),
                     ),
                   ]),
                 ),
@@ -299,7 +318,7 @@ class _SignUpState extends State<SignUp> {
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: Colors.blue,
+                          color: Colors.deepPurple,
                         ),
                       )),
                 ],

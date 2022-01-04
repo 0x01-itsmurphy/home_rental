@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:home_rental/controller/extention.dart';
 
 class Facilities extends StatelessWidget {
   const Facilities({Key? key, required this.name, required this.asset})
@@ -9,13 +10,15 @@ class Facilities extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      // alignment: Alignment.center,
       padding: const EdgeInsets.all(2),
       // height: 100,
       width: 100,
       child: Card(
-        elevation: 3,
+        margin: const EdgeInsets.all(10),
+        elevation: 2,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15.0),
+          borderRadius: BorderRadius.circular(20.0),
         ),
         shadowColor: Colors.deepPurple[200],
         child: Padding(
@@ -28,12 +31,12 @@ class Facilities extends StatelessWidget {
                 width: 2 * MediaQuery.of(context).size.height * 0.02,
               ),
               const SizedBox(
-                height: 10,
+                height: 5,
               ),
               Text(
                 name,
                 style: TextStyle(
-                    fontSize: MediaQuery.of(context).size.height * 0.022,
+                    fontSize: MediaQuery.of(context).size.height * 0.018,
                     fontWeight: FontWeight.w500),
               )
             ],
@@ -68,7 +71,7 @@ class ContactWidget extends StatelessWidget {
             ),
             Expanded(
               child: Text(
-                text,
+                text.toTitleCase(),
                 style: textStyle(),
               ),
             ),
@@ -84,7 +87,7 @@ class ContactWidget extends StatelessWidget {
     MaterialColor? color,
   }) =>
       TextStyle(
-        fontSize: size ?? 22,
+        fontSize: size ?? 20,
         fontWeight: weight ?? FontWeight.w500,
         color: color ?? Colors.grey[700],
       );

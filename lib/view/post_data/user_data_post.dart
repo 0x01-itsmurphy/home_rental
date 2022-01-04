@@ -118,6 +118,8 @@ class _PostDataState extends State<PostData> {
         title: const Text("Upload Your Information"),
       ),
       body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(
+            parent: AlwaysScrollableScrollPhysics()),
         child: Center(
           child: Form(
             key: _formKey,
@@ -318,11 +320,6 @@ class _PostDataState extends State<PostData> {
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       }
                     },
-                    // onPressed: () {
-                    //   setState(() {
-                    //     userdatapost();
-                    //   });
-                    // },
                     child: const Text("Upload"),
                   )
                 ],
