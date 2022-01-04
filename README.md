@@ -1,6 +1,4 @@
-# home_rental
-
-A new Flutter project.
+# Home Rental
 
 ## Getting Started
 
