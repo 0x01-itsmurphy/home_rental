@@ -31,7 +31,8 @@ class _MyAppState extends State<MyApp> {
 
   void checkAuth() async {
     token = await storage.read(key: "token");
-    print("Runn---> $token");
+
+    print("Starting token check---> $token");
     if (token != null) {
       setState(() {
         page = const HomeScreen();

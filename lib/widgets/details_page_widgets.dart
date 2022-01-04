@@ -10,10 +10,12 @@ class Facilities extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      // alignment: Alignment.center,
       padding: const EdgeInsets.all(2),
-      height: 80,
-      width: 80,
+      // height: 100,
+      width: 100,
       child: Card(
+        margin: const EdgeInsets.all(10),
         elevation: 2,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20.0),

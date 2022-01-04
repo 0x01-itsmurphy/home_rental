@@ -29,8 +29,9 @@ class _SignInState extends State<SignIn> {
   String password = '';
 
   Map? message;
-  String? messageData;
   String? token;
+  String? messageData;
+  String? userProfile;
 
   final storage = const FlutterSecureStorage();
 
@@ -52,11 +53,14 @@ class _SignInState extends State<SignIn> {
 
     message = jsonDecode(response.body);
     messageData = message!['message'].toString();
+    userProfile = message!['user'].toString();
+
     token = message!['token'].toString();
     await storage.write(key: "token", value: token);
 
     print("Json --> $message");
-    print("JsonDecoded --> $messageData");
+    print("MessageDecoded --> $messageData");
+    print("UserProfile --> $userProfile");
     print("Token --> $token");
 
     // if (response.statusCode == 200) {
