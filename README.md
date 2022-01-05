@@ -1,8 +1,15 @@
 # Home Rental
 
-## Getting Started
+> With this application house/room seeker can easily find nearby available houses, seeker can contact the owner for more details provided on every owners detail page.
+The landlord or owner can post there room/house details like room size, picture of room and other contact informations.
 
-This project is a starting point for a Flutter application.
+## Screenshots
+![Splash Screen](https://github.com/itsmurphy/home_rental/blob/main/project/splash_screen.png?raw=true)
+![SignIn](https://github.com/itsmurphy/home_rental/blob/main/project/signin.png?raw=true)
+![SignUp](https://github.com/itsmurphy/home_rental/blob/main/project/signup.png?raw=true)
+![Home-Screen & Details Page](https://github.com/itsmurphy/home_rental/blob/main/project/homescreen.gif?raw=true)
+
+![Post Details](https://github.com/itsmurphy/home_rental/blob/main/project/post_info.gif?raw=true)
 
 A few resources to get you started if this is your first Flutter project:
 
