@@ -180,6 +180,7 @@ class _PostDataState extends State<PostData> {
                       if (value!.isEmpty) {
                         return 'Username can\'t be empty';
                       }
+                      return null;
                     },
                   ),
                   TextFormField(
@@ -194,6 +195,7 @@ class _PostDataState extends State<PostData> {
                       if (value!.isEmpty) {
                         return 'Owner name can\'t be empty';
                       }
+                      return null;
                     },
                   ),
                   TextFormField(
@@ -209,6 +211,7 @@ class _PostDataState extends State<PostData> {
                       if (value!.isEmpty) {
                         return 'Room size can\'t be empty';
                       }
+                      return null;
                     },
                   ),
                   TextFormField(
@@ -224,6 +227,7 @@ class _PostDataState extends State<PostData> {
                       if (value!.isEmpty) {
                         return 'Rent can\'t be empty';
                       }
+                      return null;
                     },
                   ),
                   TextFormField(
@@ -238,6 +242,7 @@ class _PostDataState extends State<PostData> {
                       if (value!.isEmpty) {
                         return 'Apartment can\'t be empty';
                       }
+                      return null;
                     },
                   ),
                   TextFormField(
@@ -252,6 +257,7 @@ class _PostDataState extends State<PostData> {
                       if (value!.isEmpty) {
                         return 'Address can\'t be empty';
                       }
+                      return null;
                     },
                   ),
                   TextFormField(
@@ -266,6 +272,7 @@ class _PostDataState extends State<PostData> {
                       if (value!.isEmpty) {
                         return 'City can\'t be empty';
                       }
+                      return null;
                     },
                   ),
                   TextFormField(
@@ -281,6 +288,7 @@ class _PostDataState extends State<PostData> {
                       if (value!.isEmpty) {
                         return 'Phone number can\'t be empty';
                       }
+                      return null;
                     },
                   ),
                   TextFormField(
@@ -295,6 +303,7 @@ class _PostDataState extends State<PostData> {
                       if (value!.isEmpty) {
                         return 'Description can\'t be empty';
                       }
+                      return null;
                     },
                   ),
                   const SizedBox(
