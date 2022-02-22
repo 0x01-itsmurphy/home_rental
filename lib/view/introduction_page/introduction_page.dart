@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:home_rental/controller/authentication.dart';
+import 'package:home_rental/controller/authentication/toggle_page_switch.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
-class WelcomePage extends StatefulWidget {
-  const WelcomePage({Key? key}) : super(key: key);
+class IntroductionPage extends StatefulWidget {
+  const IntroductionPage({Key? key}) : super(key: key);
 
   @override
-  State<WelcomePage> createState() => _WelcomePageState();
+  State<IntroductionPage> createState() => _IntroductionPageState();
 }
 
 Widget _buildImage(String assetName, [double width = 300]) {
   return Image.asset('assets/welcome/$assetName', width: width);
 }
 
-class _WelcomePageState extends State<WelcomePage> {
+class _IntroductionPageState extends State<IntroductionPage> {
   final pageKey = GlobalKey<IntroductionScreenState>();
 
   @override
@@ -66,7 +66,7 @@ class _WelcomePageState extends State<WelcomePage> {
             onDone: () => Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => const Authentication(),
+                builder: (context) => const AuthPageToggleSwitch(),
               ),
             ),
             showSkipButton: true,
@@ -79,7 +79,7 @@ class _WelcomePageState extends State<WelcomePage> {
             onSkip: () => Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => const Authentication(),
+                builder: (context) => const AuthPageToggleSwitch(),
               ),
             ),
             next: const Icon(Icons.arrow_forward),

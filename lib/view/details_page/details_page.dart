@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:home_rental/controller/loading.dart';
 import 'package:home_rental/models/allposts_model.dart';
-import 'package:home_rental/widgets/details_page_widgets.dart';
+import 'package:home_rental/view/details_page/widgets/details_page_widgets.dart';
 
 class DetailsPage extends StatefulWidget {
   const DetailsPage({

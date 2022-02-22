@@ -8,7 +8,7 @@ import 'package:home_rental/controller/loading.dart';
 import 'package:home_rental/view/details_page/details_page.dart';
 import 'package:home_rental/view/post_data/user_data_post.dart';
 import 'package:home_rental/view/drawer/side_drawer.dart';
-import 'package:home_rental/widgets/homepage_widget.dart';
+import 'package:home_rental/view/homescreen/widgets/homepage_widget.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:http/http.dart' as http;
 import 'package:home_rental/models/allposts_model.dart';

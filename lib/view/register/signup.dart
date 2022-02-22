@@ -3,15 +3,19 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:home_rental/controller/authentication.dart';
+import 'package:home_rental/controller/Elements/custom_outlined_button.dart';
+import 'package:home_rental/controller/Elements/custom_text_button.dart';
+import 'package:home_rental/controller/authentication/google_signin_authenticator.dart';
+import 'package:home_rental/controller/authentication/toggle_page_switch.dart';
 import 'package:home_rental/controller/loading.dart';
+import 'package:home_rental/controller/provider/google_signin_provider.dart';
+import 'package:home_rental/view/register/widgets/bottom_text_switchpage_widget.dart';
+import 'package:home_rental/view/register/widgets/heading.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 class SignUp extends StatefulWidget {
-  const SignUp({
-    Key? key,
-    required this.toggle,
-  }) : super(key: key);
+  const SignUp({Key? key, required this.toggle}) : super(key: key);
 
   final Function toggle;
 
@@ -72,8 +76,10 @@ class _SignUpState extends State<SignUp> {
       setState(() {
         loading = false;
       });
-      Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (context) => const Authentication()));
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => const AuthPageToggleSwitch()));
     } else if (response.statusCode == 500) {
       final snackBar = SnackBar(
         content: Text('$email \n$messageData',
@@ -86,244 +92,182 @@ class _SignUpState extends State<SignUp> {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<GoogleSignInProvider>(context, listen: false);
     return Scaffold(
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 20, 40, 0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Create Account,',
-                      style: TextStyle(
-                        fontSize: 40,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.deepPurple,
-                      ),
-                    ),
-                    const Text(
-                      'Sign up to get started!',
-                      style: TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black54,
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    Center(
-                      child: Image(
-                        width: 2 * MediaQuery.of(context).size.width * 0.3,
-                        image: const AssetImage('assets/images/blue-house.gif'),
-                      ),
-                    ),
-                  ],
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(20, 20, 40, 0),
+            child: Column(
+              children: [
+                const HeadingWidget(
+                  title: 'Create Account,',
+                  subTitle: 'Sign up to get started!',
+                  image: AssetImage('assets/images/blue-house.gif'),
                 ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Form(
-                key: _formKey,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                child: Padding(
-                  padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height * 0.01,
-                    left: MediaQuery.of(context).size.width * 0.05,
-                    right: MediaQuery.of(context).size.width * 0.05,
-                  ),
-                  child: Column(children: [
-                    TextFormField(
-                      decoration: InputDecoration(
-                        icon: const Icon(Icons.person),
-                        labelText: 'Username',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                      maxLength: 30,
-                      validator: (value) {
-                        if (value!.length < 5) {
-                          return 'Please enter a valid username';
-                        } else {
-                          return null;
-                        }
-                      },
-                      onChanged: (value) => setState(() {
-                        username = value;
-                      }),
-                    ),
-                    const SizedBox(height: 10),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        icon: const Icon(Icons.email),
-                        labelText: 'Email',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                      keyboardType: TextInputType.emailAddress,
-                      validator: (value) {
-                        const pattern =
-                            r'(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)';
-                        final regExp = RegExp(pattern);
-                        if (value!.isEmpty) {
-                          return 'Enter email';
-                        } else if (!regExp.hasMatch(value)) {
-                          return 'Enter valid email';
-                        } else {
-                          return null;
-                        }
-                      },
-                      onChanged: (value) => setState(() {
-                        email = value;
-                      }),
-                    ),
-                    const SizedBox(height: 10),
-                    TextFormField(
-                      // style: const TextStyle(
-                      //   fontSize: 20,
-                      // ),
-                      keyboardType: TextInputType.visiblePassword,
-                      decoration: InputDecoration(
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            _showPassword
-                                ? Icons.visibility_off
-                                : Icons.visibility,
+                const SizedBox(
+                  height: 20,
+                ),
+                Form(
+                  key: _formKey,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        decoration: InputDecoration(
+                          contentPadding: const EdgeInsets.all(10),
+                          icon: const Icon(Icons.person),
+                          labelText: 'Username',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
                           ),
-                          onPressed: () {
-                            setState(() {
-                              _showPassword = !_showPassword;
-                            });
-                          },
                         ),
-                        icon: const Icon(Icons.lock),
-                        labelText: 'Password',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
+                        maxLength: 30,
+                        validator: (value) {
+                          if (value!.length < 5) {
+                            return 'Please enter a valid username';
+                          } else {
+                            return null;
+                          }
+                        },
+                        onChanged: (value) => setState(() {
+                          username = value;
+                        }),
+                      ),
+                      const SizedBox(height: 10),
+                      TextFormField(
+                        decoration: InputDecoration(
+                          contentPadding: const EdgeInsets.all(10),
+                          icon: const Icon(Icons.email),
+                          labelText: 'Email',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
                         ),
+                        keyboardType: TextInputType.emailAddress,
+                        validator: (value) {
+                          const pattern =
+                              r'(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)';
+                          final regExp = RegExp(pattern);
+                          if (value!.isEmpty) {
+                            return 'Enter email';
+                          } else if (!regExp.hasMatch(value)) {
+                            return 'Enter valid email';
+                          } else {
+                            return null;
+                          }
+                        },
+                        onChanged: (value) => setState(() {
+                          email = value;
+                        }),
                       ),
-                      obscureText: _showPassword,
-                      validator: (value) {
-                        if (value!.length < 8) {
-                          return 'Please enter more than 8 charater password';
-                        } else {
-                          return null;
-                        }
-                      },
-                      onChanged: (value) => setState(() {
-                        password = value;
-                      }),
-                    ),
-                    const SizedBox(height: 20),
-                    Container(
-                      height: 50,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.deepPurple,
-                      ),
-                      child: loading
-                          ? const Loading()
-                          : InkWell(
-                              onTap: () {
-                                final isValid =
-                                    _formKey.currentState!.validate();
-                                if (isValid) {
-                                  _formKey.currentState!.setState(() {
-                                    registerApiPost();
-                                    print("object");
-                                  });
-                                  print("sign up clicked");
-                                  setState(() {
-                                    loading = true;
-                                  });
-                                } else {
-                                  print("Please Register");
-                                }
-                              },
-                              // onTap: () {
-                              //   print("signup");
-                              //   Navigator.push(
-                              //       context,
-                              //       MaterialPageRoute(
-                              //           builder: (context) => const HomeScreen()));
-                              // },
-                              child: const Text(
-                                'Sign Up',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 25),
-                              ),
+                      const SizedBox(height: 10),
+                      TextFormField(
+                        keyboardType: TextInputType.visiblePassword,
+                        decoration: InputDecoration(
+                          contentPadding: const EdgeInsets.all(10),
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _showPassword
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
                             ),
-                    ),
-                  ]),
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text(
-                  'Sign Up with -',
-                  style: TextStyle(
-                    color: Colors.black54,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+                            onPressed: () {
+                              setState(() {
+                                _showPassword = !_showPassword;
+                              });
+                            },
+                          ),
+                          icon: const Icon(Icons.lock),
+                          labelText: 'Password',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        obscureText: _showPassword,
+                        validator: (value) {
+                          if (value!.length < 8) {
+                            return 'Please enter more than 8 charater password';
+                          } else {
+                            return null;
+                          }
+                        },
+                        onChanged: (value) => setState(() {
+                          password = value;
+                        }),
+                      ),
+                      const SizedBox(height: 20),
+                      CustomTextButton(
+                        child: loading
+                            ? const Loading()
+                            : InkWell(
+                                onTap: () {
+                                  final isValid =
+                                      _formKey.currentState!.validate();
+                                  if (isValid) {
+                                    _formKey.currentState!.setState(() {
+                                      registerApiPost();
+                                      print("object");
+                                    });
+                                    print("sign up clicked");
+                                    setState(() {
+                                      loading = true;
+                                    });
+                                  } else {
+                                    print("Please Register");
+                                  }
+                                },
+                                child: const Text(
+                                  'Sign Up',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 22),
+                                ),
+                              ),
+                      ),
+                    ],
                   ),
                 ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  OutlinedButton(
-                    onPressed: () => print('Google'),
-                    child: const Image(
-                      image: AssetImage('assets/images/google-logo.png'),
-                      height: 50,
-                      width: 80,
-                    ),
-                  ),
-                  OutlinedButton(
-                    onPressed: () => print('Twitter'),
-                    child: const Image(
-                      image: AssetImage('assets/images/twitter.png'),
-                      height: 50,
-                      width: 80,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    'Already have an account?',
+                const SizedBox(height: 10),
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text(
+                    'Sign In with other account.',
                     style: TextStyle(
                       color: Colors.black54,
-                      fontSize: 20,
+                      fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  TextButton(
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    CustomOutlinedButton(
                       onPressed: () {
-                        widget.toggle();
+                        provider.googleLognIn().then((value) =>
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const GoogleSignInAuthenticator())));
                       },
-                      child: const Text(
-                        "Sign In",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.deepPurple,
-                        ),
-                      )),
-                ],
-              )
-            ],
+                      image: const AssetImage('assets/images/google-logo.png'),
+                    ),
+                    CustomOutlinedButton(
+                      onPressed: () {},
+                      image: const AssetImage('assets/images/twitter.png'),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                BottomTextSwitch(
+                  onPressed: () => widget.toggle(),
+                  firstText: 'Already have an account?',
+                  secondText: 'Sign In',
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:home_rental/view/register/signin.dart';
 import 'package:home_rental/view/register/signup.dart';
 
-class Authentication extends StatefulWidget {
-  const Authentication({Key? key}) : super(key: key);
+class AuthPageToggleSwitch extends StatefulWidget {
+  const AuthPageToggleSwitch({Key? key}) : super(key: key);
 
   @override
-  _AuthenticationState createState() => _AuthenticationState();
+  _AuthPageToggleSwitchState createState() => _AuthPageToggleSwitchState();
 }
 
-class _AuthenticationState extends State<Authentication> {
+class _AuthPageToggleSwitchState extends State<AuthPageToggleSwitch> {
   bool showSignIn = true;
 
   void toggleView() {
