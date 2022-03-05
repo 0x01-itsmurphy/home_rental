@@ -15,11 +15,11 @@ class Welcome {
   });
 
   String? message;
-  List<User>? users;
+  List<UserDetailsModel>? users;
 
   factory Welcome.fromJson(Map<String, dynamic> json) => Welcome(
         message: json["message"],
-        users: List<User>.from(json["users"].map((x) => User.fromJson(x))),
+        users: List<UserDetailsModel>.from(json["users"].map((x) => UserDetailsModel.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -28,8 +28,8 @@ class Welcome {
       };
 }
 
-class User {
-  User({
+class UserDetailsModel {
+  UserDetailsModel({
     this.id,
     this.username,
     this.owner,
@@ -65,7 +65,7 @@ class User {
   DateTime? updatedAt;
   int? v;
 
-  factory User.fromJson(Map<String, dynamic> json) => User(
+  factory UserDetailsModel.fromJson(Map<String, dynamic> json) => UserDetailsModel(
         id: json["_id"],
         username: json["username"],
         owner: json["owner"],

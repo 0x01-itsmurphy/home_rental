@@ -19,7 +19,7 @@ class _DetailsPageState extends State<DetailsPage> {
   bool loading = false;
   @override
   Widget build(BuildContext context) {
-    final data = ModalRoute.of(context)!.settings.arguments as User;
+    final data = ModalRoute.of(context)!.settings.arguments as UserDetailsModel;
 
     return Scaffold(
       appBar: AppBar(

@@ -1,17 +1,18 @@
 // ignore_for_file: avoid_print
 
 import 'dart:convert';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:home_rental/controller/extention.dart';
 import 'package:home_rental/controller/loading.dart';
 import 'package:home_rental/view/details_page/details_page.dart';
-import 'package:home_rental/view/post_data/user_data_post.dart';
+import 'package:home_rental/view/homescreen/widgets/custom_floating_action.dart';
+import 'package:home_rental/view/homescreen/widgets/custom_sliver_appbar.dart';
 import 'package:home_rental/view/drawer/side_drawer.dart';
 import 'package:home_rental/view/homescreen/widgets/homepage_widget.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:http/http.dart' as http;
 import 'package:home_rental/models/allposts_model.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -21,7 +22,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 String? message;
-List<User>? users;
+List<UserDetailsModel>? users;
 
 bool loading = true;
 
@@ -35,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
       message = jsonResponse['message'].toString();
       var list = jsonResponse['users'] as List;
 
-      users = list.map((user) => User.fromJson(user)).toList();
+      users = list.map((user) => UserDetailsModel.fromJson(user)).toList();
 
       print(message);
       print(users!.length);
@@ -55,33 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         drawer: const SideDrawer(),
-        floatingActionButton: SpeedDial(
-          child: const Icon(Icons.add),
-          backgroundColor: Colors.deepPurple,
-          activeBackgroundColor: Colors.black,
-          overlayOpacity: 0.4,
-          overlayColor: Colors.black12,
-          spaceBetweenChildren: 8,
-          children: <SpeedDialChild>[
-            SpeedDialChild(
-              child: const Icon(Icons.post_add),
-              foregroundColor: Colors.white,
-              backgroundColor: Colors.deepPurple,
-              label: 'Post',
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const PostData()));
-              },
-            ),
-            SpeedDialChild(
-              child: const Icon(Icons.settings),
-              foregroundColor: Colors.white,
-              backgroundColor: Colors.deepPurple,
-              label: 'Settings',
-              onTap: () {},
-            ),
-          ],
-        ),
+        floatingActionButton: const CustomFloatingActionButton(),
         body: SafeArea(
           child: NestedScrollView(
             physics: const BouncingScrollPhysics(
@@ -91,58 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
               return <Widget>[
                 // Another Widget can be added
                 // SearchWidget(),
-                SliverAppBar(
-                  leading: IconButton(
-                    onPressed: () {
-                      Scaffold.of(context).openDrawer();
-                    },
-                    icon: const Icon(
-                      Icons.menu_open_outlined,
-                      size: 30,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  actions: [
-                    IconButton(
-                      icon: const Icon(
-                        Icons.notifications_outlined,
-                        size: 30,
-                        color: Colors.grey,
-                      ),
-                      onPressed: () {},
-                    ),
-                  ],
-                  expandedHeight: 200.0,
-                  floating: true,
-                  pinned: true,
-                  title: Padding(
-                    padding: const EdgeInsets.all(0),
-                    child: CupertinoTextField(
-                      keyboardType: TextInputType.text,
-                      placeholder: 'Search',
-                      placeholderStyle: const TextStyle(
-                        fontSize: 15.0,
-                      ),
-                      prefix: const Padding(
-                        padding: EdgeInsets.fromLTRB(9.0, 6.0, 9.0, 6.0),
-                        child: Icon(
-                          Icons.search,
-                          color: Colors.black,
-                        ),
-                      ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: Colors.grey[300],
-                      ),
-                    ),
-                  ),
-                  flexibleSpace: FlexibleSpaceBar(
-                    background: Image.asset(
-                      "assets/images/undraw_rent_house.png",
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
+                const CustomSliverAppBar(),
 
                 // SliverPersistentHeader(
                 //   delegate: MySliverAppBar(expandedHeight: 200),
