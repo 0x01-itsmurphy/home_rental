@@ -4,6 +4,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:home_rental/controller/Elements/successful_mesage_screen.dart';
+import 'package:home_rental/controller/loading.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -16,6 +19,7 @@ class PostData extends StatefulWidget {
 }
 
 class _PostDataState extends State<PostData> {
+  bool isLoading = false;
   final _formKey = GlobalKey<FormState>();
   File? imagePicked;
 
@@ -38,7 +42,7 @@ class _PostDataState extends State<PostData> {
   // Map? responseBody;
   final storage = const FlutterSecureStorage();
 
-  Future upload() async {
+  Future uploadPosts() async {
     String? token = await storage.read(key: "token");
     var stream = http.ByteStream(imagePicked!.openRead());
     stream.cast();
@@ -74,7 +78,13 @@ class _PostDataState extends State<PostData> {
         backgroundColor: Colors.green,
       );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      return Navigator.pop(context);
+      setState(() {
+        isLoading = false;
+        EasyLoading.dismiss();
+      });
+
+      return Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) => const SuccessfullMessage()));
     } else if (response.statusCode == 401) {
       print("Login Again--Token eXpired!");
       const snackBar = SnackBar(
@@ -85,6 +95,9 @@ class _PostDataState extends State<PostData> {
         backgroundColor: Colors.redAccent,
       );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      setState(() {
+        isLoading = false;
+      });
       return Navigator.pop(context);
     } else if (response.statusCode == 500) {
       print("Server Error");
@@ -96,6 +109,9 @@ class _PostDataState extends State<PostData> {
         backgroundColor: Colors.redAccent,
       );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      setState(() {
+        isLoading = false;
+      });
       return Navigator.pop(context);
     }
     return Exception("Select image");
@@ -312,11 +328,28 @@ class _PostDataState extends State<PostData> {
                   ElevatedButton(
                     onPressed: () {
                       final isValid = _formKey.currentState!.validate();
-                      if (isValid) {
+                      if (imagePicked == null) {
+                        const snackBar = SnackBar(
+                          content: Text(
+                            "Please Upload Image",
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          backgroundColor: Colors.redAccent,
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      }
+                      if (isValid && imagePicked != null) {
                         _formKey.currentState!.setState(() {
-                          upload();
+                          uploadPosts();
                         });
                         print("Upload Pressed");
+                        setState(() {
+                          isLoading = true;
+                          EasyLoading.show(
+                            status: 'loading...',
+                            maskType: EasyLoadingMaskType.black,
+                          );
+                        });
                       } else {
                         print("Upload Failed");
                         const snackBar = SnackBar(

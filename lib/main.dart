@@ -75,6 +75,7 @@ class _MyAppState extends State<MyApp> {
         // ChangeNotifierProvider(create: (_) => NetworkApiProvider()),
       ],
       child: MaterialApp(
+        builder: EasyLoading.init(),
         themeMode: ThemeMode.dark,
         theme: ThemeData(
           fontFamily: GoogleFonts.ubuntu().fontFamily,
