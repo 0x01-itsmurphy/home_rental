@@ -2,11 +2,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:home_rental/controller/provider/google_signin_provider.dart';
-import 'package:home_rental/view/homescreen/homescreen.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:home_rental/view/introduction_page/introduction_page.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:home_rental/controller/provider/google_signin_provider.dart';
+import 'package:home_rental/controller/provider/homescreen_allposts_provider.dart';
+import 'package:home_rental/view/Screens/homescreen/homescreen.dart';
+import 'package:home_rental/view/Screens/introduction_page/introduction_page.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -72,9 +73,11 @@ class _MyAppState extends State<MyApp> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => GoogleSignInProvider()),
+        ChangeNotifierProvider(create: (_) => HomeScreenAllPostsProvider())
         // ChangeNotifierProvider(create: (_) => NetworkApiProvider()),
       ],
       child: MaterialApp(
+        builder: EasyLoading.init(),
         themeMode: ThemeMode.dark,
         theme: ThemeData(
           fontFamily: GoogleFonts.ubuntu().fontFamily,

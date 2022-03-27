@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
-class CustomOutlinedButton extends StatefulWidget {
+class CustomSocialMediaButton extends StatefulWidget {
   final VoidCallback? onPressed;
   final ImageProvider image;
-  const CustomOutlinedButton(
+  const CustomSocialMediaButton(
       {Key? key, required this.onPressed, required this.image})
       : super(key: key);
 
   @override
-  _CustomOutlinedButtonState createState() => _CustomOutlinedButtonState();
+  _CustomSocialMediaButtonState createState() => _CustomSocialMediaButtonState();
 }
 
-class _CustomOutlinedButtonState extends State<CustomOutlinedButton> {
+class _CustomSocialMediaButtonState extends State<CustomSocialMediaButton> {
   @override
   Widget build(BuildContext context) {
     return OutlinedButton(

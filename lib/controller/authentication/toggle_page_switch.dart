@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:home_rental/view/register/signin.dart';
-import 'package:home_rental/view/register/signup.dart';
+import 'package:home_rental/view/Screens/register/signin.dart';
+import 'package:home_rental/view/Screens/register/signup.dart';
 
 class AuthPageToggleSwitch extends StatefulWidget {
   const AuthPageToggleSwitch({Key? key}) : super(key: key);

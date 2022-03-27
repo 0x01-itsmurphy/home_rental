@@ -2,6 +2,7 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class GoogleSignInProvider extends ChangeNotifier {
@@ -9,6 +10,7 @@ class GoogleSignInProvider extends ChangeNotifier {
 
   GoogleSignInAccount? _account;
   GoogleSignInAccount get account => _account!;
+  final storage = const FlutterSecureStorage();
 
   Future googleLognIn() async {
     try {
@@ -23,11 +25,13 @@ class GoogleSignInProvider extends ChangeNotifier {
         idToken: googleAuth.idToken,
       );
 
+      await storage.write(
+          key: googleAuth.idToken.toString(), value: googleAuth.accessToken);
       await FirebaseAuth.instance.signInWithCredential(credential);
     } catch (e) {
       print(e.toString());
     }
-    
+
     notifyListeners();
   }
 

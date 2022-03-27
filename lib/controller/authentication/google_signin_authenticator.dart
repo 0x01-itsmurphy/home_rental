@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:home_rental/controller/authentication/toggle_page_switch.dart';
-import 'package:home_rental/view/homescreen/homescreen.dart';
+import 'package:home_rental/view/Screens/homescreen/homepage.dart';
+import 'package:home_rental/view/Screens/homescreen/homescreen.dart';
 
 class GoogleSignInAuthenticator extends StatelessWidget {
   const GoogleSignInAuthenticator({Key? key}) : super(key: key);
