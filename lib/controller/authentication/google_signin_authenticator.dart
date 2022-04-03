@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:home_rental/controller/Elements/bottom_nav_bar.dart';
 import 'package:home_rental/controller/authentication/toggle_page_switch.dart';
 import 'package:home_rental/view/homescreen/homescreen.dart';
 
@@ -14,7 +15,7 @@ class GoogleSignInAuthenticator extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasData) {
-          return const HomeScreen();
+          return const MainScreen();
         } else if (snapshot.hasError) {
           return const Center(child: Text('Someting went wrong!'));
         } else {

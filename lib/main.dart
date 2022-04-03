@@ -2,6 +2,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:home_rental/controller/Elements/bottom_nav_bar.dart';
 import 'package:home_rental/controller/provider/google_signin_provider.dart';
 import 'package:home_rental/view/homescreen/homescreen.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -57,7 +58,7 @@ class _MyAppState extends State<MyApp> {
     print("Starting token check---> $token");
     if (token != null) {
       setState(() {
-        page = const HomeScreen();
+        page = const MainScreen();
       });
     } else {
       setState(() {

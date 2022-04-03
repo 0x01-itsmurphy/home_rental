@@ -3,6 +3,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:home_rental/controller/Elements/bottom_nav_bar.dart';
 import 'package:home_rental/controller/Elements/custom_outlined_button.dart';
 import 'package:home_rental/controller/Elements/custom_text_button.dart';
 import 'package:home_rental/controller/authentication/google_signin_authenticator.dart';
@@ -86,7 +87,7 @@ class _SignInState extends State<SignIn> {
         loading = false;
       });
       return Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+          context, MaterialPageRoute(builder: (context) => const MainScreen()));
     }
   }
 

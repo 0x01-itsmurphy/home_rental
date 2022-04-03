@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:home_rental/controller/Elements/bottom_nav_bar.dart';
 import 'package:home_rental/view/homescreen/homescreen.dart';
 
 class SuccessfullMessage extends StatefulWidget {
@@ -50,7 +51,7 @@ class _SuccessfullMessageState extends State<SuccessfullMessage> {
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const HomeScreen()));
+                          builder: (context) => const MainScreen()));
                 },
                 child: Container(
                   alignment: Alignment.center,

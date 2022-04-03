@@ -1,18 +1,17 @@
 // ignore_for_file: avoid_print
 
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:home_rental/controller/extention.dart';
 import 'package:home_rental/controller/loading.dart';
+import 'package:home_rental/models/allposts_model.dart';
 import 'package:home_rental/view/details_page/details_page.dart';
+import 'package:home_rental/view/drawer/side_drawer.dart';
 import 'package:home_rental/view/homescreen/widgets/custom_floating_action.dart';
 import 'package:home_rental/view/homescreen/widgets/custom_sliver_appbar.dart';
-import 'package:home_rental/view/drawer/side_drawer.dart';
 import 'package:home_rental/view/homescreen/widgets/homepage_widget.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:http/http.dart' as http;
-import 'package:home_rental/models/allposts_model.dart';
-import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
