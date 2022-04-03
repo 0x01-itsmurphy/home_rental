@@ -11,8 +11,8 @@ class SuccessfullMessage extends StatefulWidget {
 class _SuccessfullMessageState extends State<SuccessfullMessage> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Padding(
+    return Scaffold(
+      body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         child: Center(
           child: Column(
@@ -36,10 +36,22 @@ class _SuccessfullMessageState extends State<SuccessfullMessage> {
               ),
               Container(
                 padding: const EdgeInsets.only(left: 20, right: 20),
-                child: const Text(
-                  'Congratulations!🎉🎉, \nYour post has been uploaded!!!',
-                  style: TextStyle(fontSize: 16),
-                  textAlign: TextAlign.center,
+                child: Column(
+                  children: const [
+                    Text(
+                      'Congratulations!🎉🎉,',
+                      style: TextStyle(fontSize: 16),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      'Your post has been uploaded!!!',
+                      style: TextStyle(fontSize: 16),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(

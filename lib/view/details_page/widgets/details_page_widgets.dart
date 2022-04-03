@@ -9,6 +9,7 @@ class Facilities extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var height = MediaQuery.of(context).size.height;
     return Container(
       // alignment: Alignment.center,
       padding: const EdgeInsets.all(2),
@@ -27,17 +28,18 @@ class Facilities extends StatelessWidget {
             children: [
               Image.asset(
                 asset,
-                height: 2 * MediaQuery.of(context).size.height * 0.02,
-                width: 2 * MediaQuery.of(context).size.height * 0.02,
+                height: 2 * height * 0.02,
+                width: 2 * height * 0.02,
               ),
               const SizedBox(
                 height: 5,
               ),
               Text(
                 name,
-                style: TextStyle(
-                    fontSize: MediaQuery.of(context).size.height * 0.018,
-                    fontWeight: FontWeight.w500),
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
               )
             ],
           ),

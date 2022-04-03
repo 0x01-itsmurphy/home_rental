@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:home_rental/controller/Elements/footer_size_price.dart';
 import 'package:home_rental/controller/loading.dart';
 import 'package:home_rental/models/allposts_model.dart';
 import 'package:home_rental/view/details_page/widgets/details_page_widgets.dart';
@@ -32,7 +33,8 @@ class _DetailsPageState extends State<DetailsPage> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          padding:
+              const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -51,7 +53,6 @@ class _DetailsPageState extends State<DetailsPage> {
                       } else {
                         return const Center(
                           child: Loading(),
-                          
                         );
                       }
                     },
@@ -69,7 +70,8 @@ class _DetailsPageState extends State<DetailsPage> {
                       data.owner.toString().toUpperCase(),
                       style: TextStyle(
                           color: Colors.black,
-                          fontSize: MediaQuery.of(context).size.height * 0.035,
+                          fontSize:
+                              MediaQuery.of(context).size.height * 0.035,
                           fontWeight: FontWeight.w600),
                     ),
                   ),
@@ -141,68 +143,16 @@ class _DetailsPageState extends State<DetailsPage> {
                   ),
                 ],
               ),
-              const SizedBox(
-                height: 30,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.grey[300],
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                          vertical: MediaQuery.of(context).size.height * 0.02,
-                          horizontal:
-                              MediaQuery.of(context).size.height * 0.02),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            "${data.size.toString()} sq.ft.",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize:
-                                    MediaQuery.of(context).size.height * 0.03),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.black,
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                          vertical: MediaQuery.of(context).size.height * 0.02,
-                          horizontal:
-                              MediaQuery.of(context).size.height * 0.02),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            "Rs. ${data.rent}",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize:
-                                    MediaQuery.of(context).size.height * 0.03),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              )
+              // const SizedBox(
+              //   height: 30,
+              // ),
             ],
           ),
         ),
+      ),
+      bottomNavigationBar: FooterSizePrice(
+        size: data.size!,
+        rent: data.rent!,
       ),
     );
   }
