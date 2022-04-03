@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:home_rental/view/profile_page/profile_page.dart';
 
 class CustomSliverAppBar extends StatelessWidget {
   const CustomSliverAppBar({
@@ -22,37 +23,40 @@ class CustomSliverAppBar extends StatelessWidget {
       actions: [
         IconButton(
           icon: const Icon(
-            Icons.notifications_outlined,
+            Icons.person,
             size: 30,
             color: Colors.grey,
           ),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const ProfileScreen()));
+          },
         ),
       ],
       expandedHeight: 200.0,
-      floating: true,
-      pinned: true,
-      title: Padding(
-        padding: const EdgeInsets.all(0),
-        child: CupertinoTextField(
-          keyboardType: TextInputType.text,
-          placeholder: 'Search',
-          placeholderStyle: const TextStyle(
-            fontSize: 15.0,
-          ),
-          prefix: const Padding(
-            padding: EdgeInsets.fromLTRB(9.0, 6.0, 9.0, 6.0),
-            child: Icon(
-              Icons.search,
-              color: Colors.black,
-            ),
-          ),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5),
-            color: Colors.grey[300],
-          ),
-        ),
-      ),
+      floating: false,
+      pinned: false,
+      // title: Padding(
+      //   padding: const EdgeInsets.all(0),
+      //   child: CupertinoTextField(
+      //     keyboardType: TextInputType.text,
+      //     placeholder: 'Search',
+      //     placeholderStyle: const TextStyle(
+      //       fontSize: 15.0,
+      //     ),
+      //     prefix: const Padding(
+      //       padding: EdgeInsets.fromLTRB(9.0, 6.0, 9.0, 6.0),
+      //       child: Icon(
+      //         Icons.search,
+      //         color: Colors.black,
+      //       ),
+      //     ),
+      //     decoration: BoxDecoration(
+      //       borderRadius: BorderRadius.circular(5),
+      //       color: Colors.grey[300],
+      //     ),
+      //   ),
+      // ),
       flexibleSpace: FlexibleSpaceBar(
         background: Image.asset(
           "assets/images/undraw_rent_house.png",

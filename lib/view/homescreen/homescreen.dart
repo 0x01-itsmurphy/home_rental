@@ -7,8 +7,6 @@ import 'package:home_rental/controller/extention.dart';
 import 'package:home_rental/controller/loading.dart';
 import 'package:home_rental/models/allposts_model.dart';
 import 'package:home_rental/view/details_page/details_page.dart';
-import 'package:home_rental/view/drawer/side_drawer.dart';
-import 'package:home_rental/view/homescreen/widgets/custom_floating_action.dart';
 import 'package:home_rental/view/homescreen/widgets/custom_sliver_appbar.dart';
 import 'package:home_rental/view/homescreen/widgets/homepage_widget.dart';
 import 'package:http/http.dart' as http;
@@ -54,8 +52,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: const SideDrawer(),
-        floatingActionButton: const CustomFloatingActionButton(),
+        // drawer: const SideDrawer(),
+        // floatingActionButton: const CustomFloatingActionButton(),
         body: SafeArea(
           child: NestedScrollView(
             physics: const BouncingScrollPhysics(
@@ -63,14 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
             headerSliverBuilder:
                 (BuildContext context, bool innerBoxIsScrolled) {
               return <Widget>[
-                // Another Widget can be added
-                // SearchWidget(),
                 const CustomSliverAppBar(),
-
-                // SliverPersistentHeader(
-                //   delegate: MySliverAppBar(expandedHeight: 200),
-                //   pinned: false,
-                // )
               ];
             },
             body: RefreshIndicator(
