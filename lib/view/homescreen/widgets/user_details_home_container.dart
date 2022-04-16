@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:home_rental/controller/extention.dart';
 import 'package:home_rental/controller/loading.dart';
 import 'package:home_rental/view/homescreen/widgets/homepage_widget.dart';
+import 'package:flutter_bounceable/flutter_bounceable.dart';
 
 class UserDetailsHomeContainer extends StatefulWidget {
   final String picture;
@@ -28,7 +29,7 @@ class UserDetailsHomeContainer extends StatefulWidget {
 class _UserDetailsHomeContainerState extends State<UserDetailsHomeContainer> {
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return Bounceable(
       onTap: widget.onTap,
       child: Card(
         shape: RoundedRectangleBorder(

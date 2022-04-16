@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:home_rental/view/homescreen/homescreen.dart';
+import 'package:lottie/lottie.dart';
 
 class SuccessfullMessage extends StatefulWidget {
   const SuccessfullMessage({Key? key}) : super(key: key);
@@ -19,11 +21,7 @@ class _SuccessfullMessageState extends State<SuccessfullMessage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Image(
-                width: 150,
-                image: NetworkImage(
-                    'https://cdn-icons-png.flaticon.com/512/845/845646.png'),
-              ),
+              Lottie.asset('assets/lottie/success_message.json'),
               const SizedBox(
                 height: 20,
               ),
@@ -59,6 +57,7 @@ class _SuccessfullMessageState extends State<SuccessfullMessage> {
               ),
               InkWell(
                 onTap: () {
+                  HapticFeedback.heavyImpact();
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
@@ -67,8 +66,8 @@ class _SuccessfullMessageState extends State<SuccessfullMessage> {
                 child: Container(
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                    border: Border.all(),
-                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: Colors.deepPurple),
+                    borderRadius: BorderRadius.circular(16),
                   ),
                   width: 200,
                   height: 50,

@@ -2,11 +2,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:home_rental/controller/provider/google_signin_provider.dart';
 import 'package:home_rental/view/homescreen/homescreen.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:home_rental/view/introduction_page/introduction_page.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -69,6 +69,19 @@ class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    // MaterialColor myColor = const MaterialColor(0xFF6C63FF, <int, Color>{
+    //   50: Color.fromRGBO(4, 131, 184, .1),
+    //   100: Color.fromRGBO(4, 131, 184, .2),
+    //   200: Color.fromRGBO(4, 131, 184, .3),
+    //   300: Color.fromRGBO(4, 131, 184, .4),
+    //   400: Color.fromRGBO(4, 131, 184, .5),
+    //   500: Color.fromRGBO(4, 131, 184, .6),
+    //   600: Color.fromRGBO(4, 131, 184, .7),
+    //   700: Color.fromRGBO(4, 131, 184, .8),
+    //   800: Color.fromRGBO(4, 131, 184, .9),
+    //   900: Color.fromRGBO(4, 131, 184, 1),
+    // });
+
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => GoogleSignInProvider()),

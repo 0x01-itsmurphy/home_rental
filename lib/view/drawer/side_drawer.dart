@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:home_rental/controller/authentication/toggle_page_switch.dart';
@@ -90,6 +91,7 @@ class _SideDrawerState extends State<SideDrawer> {
             height: 50,
             child: TextButton(
               onPressed: () {
+                HapticFeedback.lightImpact();
                 provider.googleSignOut().then((value) =>
                     Navigator.pushAndRemoveUntil(
                         context,

@@ -44,6 +44,8 @@ class _SignInState extends State<SignIn> {
 
   bool _showPassword = true;
 
+  // get isLoading => null;
+
   Future signInApiPost() async {
     final response = await http.post(
       Uri.parse("https://homeforrent.herokuapp.com/profile/signin"),
@@ -94,10 +96,11 @@ class _SignInState extends State<SignIn> {
   Widget build(BuildContext context) {
     final provider = Provider.of<GoogleSignInProvider>(context, listen: false);
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(20, 20, 40, 0),
+            padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
             child: Column(
               children: [
                 const HeadingWidget(
@@ -182,31 +185,23 @@ class _SignInState extends State<SignIn> {
                         ),
                       ),
                       CustomTextButton(
-                        child: loading
-                            ? const Loading()
-                            : InkWell(
-                                onTap: () {
-                                  final isValid =
-                                      _formKey.currentState!.validate();
-                                  if (isValid) {
-                                    _formKey.currentState!.setState(() {
-                                      signInApiPost();
-                                    });
-                                    print("SignIn Button Clicked");
-                                    setState(() {
-                                      loading = true;
-                                    });
-                                  } else {
-                                    print("Error fetching Api");
-                                  }
-                                },
-                                child: const Text(
-                                  'Sign In',
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 24),
-                                ),
-                              ),
-                      ),
+                        text: 'Sign In',
+                        isLoading: loading,
+                        onTap: () {
+                          final isValid = _formKey.currentState!.validate();
+                          if (isValid) {
+                            _formKey.currentState!.setState(() {
+                              signInApiPost();
+                            });
+                            print("SignIn Button Clicked");
+                            setState(() {
+                              loading = true;
+                            });
+                          } else {
+                            print("Error fetching Api");
+                          }
+                        },
+                      )
                     ],
                   ),
                 ),

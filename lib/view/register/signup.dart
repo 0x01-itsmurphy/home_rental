@@ -94,10 +94,11 @@ class _SignUpState extends State<SignUp> {
   Widget build(BuildContext context) {
     final provider = Provider.of<GoogleSignInProvider>(context, listen: false);
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(20, 20, 40, 0),
+            padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
             child: Column(
               children: [
                 const HeadingWidget(
@@ -115,7 +116,8 @@ class _SignUpState extends State<SignUp> {
                     children: [
                       TextFormField(
                         decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.all(10),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 18, horizontal: 10),
                           icon: const Icon(Icons.person),
                           labelText: 'Username',
                           border: OutlineInputBorder(
@@ -137,7 +139,8 @@ class _SignUpState extends State<SignUp> {
                       const SizedBox(height: 10),
                       TextFormField(
                         decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.all(10),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 18, horizontal: 10),
                           icon: const Icon(Icons.email),
                           labelText: 'Email',
                           border: OutlineInputBorder(
@@ -165,7 +168,8 @@ class _SignUpState extends State<SignUp> {
                       TextFormField(
                         keyboardType: TextInputType.visiblePassword,
                         decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.all(10),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 18, horizontal: 10),
                           suffixIcon: IconButton(
                             icon: Icon(
                               _showPassword
@@ -198,32 +202,24 @@ class _SignUpState extends State<SignUp> {
                       ),
                       const SizedBox(height: 20),
                       CustomTextButton(
-                        child: loading
-                            ? const Loading()
-                            : InkWell(
-                                onTap: () {
-                                  final isValid =
-                                      _formKey.currentState!.validate();
-                                  if (isValid) {
-                                    _formKey.currentState!.setState(() {
-                                      registerApiPost();
-                                      print("object");
-                                    });
-                                    print("sign up clicked");
-                                    setState(() {
-                                      loading = true;
-                                    });
-                                  } else {
-                                    print("Please Register");
-                                  }
-                                },
-                                child: const Text(
-                                  'Sign Up',
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 22),
-                                ),
-                              ),
-                      ),
+                        isLoading: loading,
+                        text: 'Sign Up',
+                        onTap: () {
+                          final isValid = _formKey.currentState!.validate();
+                          if (isValid) {
+                            _formKey.currentState!.setState(() {
+                              registerApiPost();
+                              print("object");
+                            });
+                            print("sign up clicked");
+                            setState(() {
+                              loading = true;
+                            });
+                          } else {
+                            print("Please Register");
+                          }
+                        },
+                      )
                     ],
                   ),
                 ),

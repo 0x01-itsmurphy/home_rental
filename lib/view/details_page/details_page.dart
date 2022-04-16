@@ -24,12 +24,51 @@ class _DetailsPageState extends State<DetailsPage> {
 
     return Scaffold(
       appBar: AppBar(
-        elevation: 0,
-        title: Text(
-          "Available: " + data.available.toString(),
-          style: const TextStyle(
-              fontSize: 16, fontWeight: FontWeight.bold, color: Colors.grey),
-        ),
+        actions: [
+          data.available == true
+              ? Row(
+                  children: const [
+                    Text(
+                      "Available",
+                      style: TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Icon(
+                      Icons.check,
+                      color: Colors.greenAccent,
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                  ],
+                )
+              : Row(
+                  children: const [
+                    Text(
+                      "Unavailable",
+                      style: TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Icon(
+                      Icons.close,
+                      color: Colors.redAccent,
+                    ),
+                  ],
+                ),
+          const SizedBox(width: 10),
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(

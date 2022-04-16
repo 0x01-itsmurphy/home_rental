@@ -14,11 +14,11 @@ class HeadingWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var width = MediaQuery.of(context).size.width;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          // 'Welcome,',
           title,
           style: const TextStyle(
             fontSize: 35,
@@ -27,7 +27,6 @@ class HeadingWidget extends StatelessWidget {
           ),
         ),
         Text(
-          // 'Sign in to continue!',
           subTitle,
           style: const TextStyle(
             fontSize: 24,
@@ -38,7 +37,7 @@ class HeadingWidget extends StatelessWidget {
         const SizedBox(height: 20),
         Center(
           child: Image(
-            width: 2 * MediaQuery.of(context).size.width * 0.3,
+            width: width / 1.7,
             // image: const AssetImage('assets/images/blue-house.gif'),
             image: image,
           ),

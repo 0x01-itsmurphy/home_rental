@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bounceable/flutter_bounceable.dart';
 
 class CustomSliverAppBar extends StatelessWidget {
   const CustomSliverAppBar({
@@ -9,6 +10,7 @@ class CustomSliverAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
+      // backgroundColor: Colors.white,
       leading: IconButton(
         onPressed: () {
           Scaffold.of(context).openDrawer();
@@ -54,9 +56,12 @@ class CustomSliverAppBar extends StatelessWidget {
         ),
       ),
       flexibleSpace: FlexibleSpaceBar(
-        background: Image.asset(
-          "assets/images/undraw_rent_house.png",
-          fit: BoxFit.cover,
+        background: Bounceable(
+          onTap: () {},
+          child: Image.asset(
+            "assets/images/undraw_rent_house.png",
+            fit: BoxFit.cover,
+          ),
         ),
       ),
     );
