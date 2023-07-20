@@ -7,8 +7,8 @@ import 'package:home_rental/controller/Elements/custom_outlined_button.dart';
 import 'package:home_rental/controller/Elements/custom_text_button.dart';
 import 'package:home_rental/controller/authentication/google_signin_authenticator.dart';
 import 'package:home_rental/controller/authentication/toggle_page_switch.dart';
-import 'package:home_rental/controller/loading.dart';
 import 'package:home_rental/controller/provider/google_signin_provider.dart';
+import 'package:home_rental/view/register/signin.dart';
 import 'package:home_rental/view/register/widgets/bottom_text_switchpage_widget.dart';
 import 'package:home_rental/view/register/widgets/heading.dart';
 import 'package:http/http.dart' as http;
@@ -40,7 +40,7 @@ class _SignUpState extends State<SignUp> {
 
   Future registerApiPost() async {
     final response = await http.post(
-      Uri.parse("https://homeforrent.herokuapp.com/profile/signup"),
+      Uri.parse("https://$baseUrl/profile/signup"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

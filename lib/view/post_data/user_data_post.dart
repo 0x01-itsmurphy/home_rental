@@ -10,6 +10,8 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+import '../register/signin.dart';
+
 class PostData extends StatefulWidget {
   const PostData({Key? key}) : super(key: key);
 
@@ -48,7 +50,7 @@ class _PostDataState extends State<PostData> {
     var length = await imagePicked?.length();
 
     final request = http.MultipartRequest(
-        "POST", Uri.parse('https://homeforrent.herokuapp.com/posts/add'));
+        "POST", Uri.parse('https://$baseUrl/posts/add'));
     request.headers["auth-token"] = "$token";
     request.fields["username"] = _username.text;
     request.fields["owner"] = _owner.text;

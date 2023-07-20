@@ -22,7 +22,7 @@ class _IntroductionPageState extends State<IntroductionPage> {
     const pageDecoration = PageDecoration(
       titleTextStyle: TextStyle(fontSize: 25.0, fontWeight: FontWeight.w700),
       bodyTextStyle: bodyStyle,
-      descriptionPadding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
+      // descriptionPadding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
       pageColor: Colors.white,
       imagePadding: EdgeInsets.zero,
     );
@@ -70,7 +70,7 @@ class _IntroductionPageState extends State<IntroductionPage> {
               ),
             ),
             showSkipButton: true,
-            skipFlex: 0,
+            // skipFlex: 0,
             nextFlex: 0,
             skip: const Text(
               'Skip',

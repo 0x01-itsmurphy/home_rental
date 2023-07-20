@@ -1,19 +1,16 @@
-# Home Rental
+# home_rental
 
-> With this application house/room seeker can easily find nearby available houses, seeker can contact the owner for more details provided on every owners detail page.
-The landlord or owner can post there room/house details like room size, picture of room and other contact informations.
-## App Link
-<a href="project/arm64-v8a-release.apk"><img src="https://playerzon.com/asset/download.png" width="200"></img></a>
+A new Flutter project.
 
-## Screenshots
+## Getting Started
 
-<img src="https://github.com/itsmurphy/home_rental/blob/main/project/splash_screen.png" height="500em"/>&nbsp;<img src="https://github.com/itsmurphy/home_rental/blob/main/project/signin.png" height="500em"/>&nbsp;<img src="https://github.com/itsmurphy/home_rental/blob/main/project/signup.png" height="500em"/><br>
-<img src="https://github.com/itsmurphy/home_rental/blob/main/project/homescreen.gif" height="500em"/>&nbsp;<img src="https://github.com/itsmurphy/home_rental/blob/main/project/post_info.gif" height="500em"/>
+This project is a starting point for a Flutter application.
 
+A few resources to get you started if this is your first Flutter project:
 
-## Todo
-> Search with filters
+- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
+- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-> drawer profile
-
-> maps location
+For help getting started with Flutter development, view the
+[online documentation](https://docs.flutter.dev/), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.

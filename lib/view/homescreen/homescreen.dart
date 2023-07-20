@@ -9,6 +9,7 @@ import 'package:home_rental/view/drawer/side_drawer.dart';
 import 'package:home_rental/view/homescreen/widgets/custom_floating_action.dart';
 import 'package:home_rental/view/homescreen/widgets/custom_sliver_appbar.dart';
 import 'package:home_rental/view/homescreen/widgets/user_details_home_container.dart';
+import 'package:home_rental/view/register/signin.dart';
 import 'package:http/http.dart' as http;
 import 'package:lottie/lottie.dart';
 
@@ -26,8 +27,8 @@ bool loading = true;
 
 class _HomeScreenState extends State<HomeScreen> {
   Future fetchAllPosts() async {
-    final response = await http
-        .get(Uri.parse('https://homeforrent.herokuapp.com/api/getallposts'));
+    final response =
+        await http.get(Uri.parse('https://$baseUrl/api/getallposts'));
 
     if (response.statusCode == 200) {
       var jsonResponse = json.decode(response.body);

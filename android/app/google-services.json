@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "602384250371-8c14dle9ouql71mbs6ek8nenh59ugijb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.itsmurphy.homeRental",
+            "certificate_hash": "7dc24979f650449b81d603a2f5bb3a2dca151581"
+          }
+        },
+        {
           "client_id": "602384250371-77hm21gk9rl02maurr27k4469g9i3dvs.apps.googleusercontent.com",
           "client_type": 3
         }
